@@ -14,9 +14,9 @@ namespace WebToolkit.Common.Extensions
             }
         }
 
-        public static IEnumerable<KeyValuePair<TKey, TValue>> ToKeyValuePair<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
+        public static IEnumerable<KeyValuePair<TKey, TValue>> ToKeyValuePairs<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
-            return dictionary.Select(a => new KeyValuePair<TKey, TValue>(a.Key, a.Value));
+            return dictionary.Select(a => new KeyValuePair<TKey, TValue>(a.Key, a.Value)).ToArray();
         }
 
         public static void AddRange<TKey, TValue>(this IDictionary<TKey, TValue> dictionary,

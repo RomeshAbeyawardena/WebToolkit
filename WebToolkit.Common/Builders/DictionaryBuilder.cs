@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 using WebToolkit.Common.Extensions;
 using WebToolkit.Contracts.Builders;
 
@@ -50,7 +49,7 @@ namespace WebToolkit.Common.Builders
 
         public IEnumerable<KeyValuePair<TKey, TValue>> ToKeyValuePairs()
         {
-            return _internalDictionary.ToKeyValuePair();
+            return _internalDictionary.ToKeyValuePairs();
         }
 
         
