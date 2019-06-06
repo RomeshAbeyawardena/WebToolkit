@@ -1,5 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Description>Contracts for the web toolkit consisting of Helpers, Extensions, Builders and Containers to aid Server-side Web Development to support dependency injection.</Description>
   </PropertyGroup>
  </Project>  

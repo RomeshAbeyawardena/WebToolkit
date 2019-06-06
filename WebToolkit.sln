@@ -8,6 +8,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebToolkit.Contracts", "Web
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebToolkit.Tests", "WebToolkit.Tests\WebToolkit.Tests.csproj", "{BE93E3E0-BE54-47EB-A740-B85955C13307}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SolutionFiles", "SolutionFiles", "{8597FD9A-54C6-4FDC-8681-13158B189BD8}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		UpdateVersion-Powershell.ps1 = UpdateVersion-Powershell.ps1
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

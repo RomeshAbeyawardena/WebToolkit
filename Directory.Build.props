@@ -1,0 +1,20 @@
+<Project>
+  <PropertyGroup>
+    <Deterministic>true</Deterministic>
+    <Version>1.0.0.0</Version>
+    <Authors>Romesh Abeyawardena</Authors>
+    <Company>Dot Net Insights</Company>
+    <Product>WebToolkit</Product>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+    <NeutralLanguage>en</NeutralLanguage>
+    <Copyright>MIT</Copyright>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>Project URL</PackageProjectUrl>
+    <PackageIconUrl>Icon URL</PackageIconUrl>
+    <RepositoryUrl>Repo URL</RepositoryUrl>
+    <RepositoryType>Repo type</RepositoryType>
+    <PackageTags>Web Toolkit Helpers Extensions Builders Containers</PackageTags>
+    <PackageReleaseNotes>Release</PackageReleaseNotes>
+  </PropertyGroup>
+</Project>

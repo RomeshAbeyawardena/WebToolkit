@@ -1,6 +1,9 @@
-<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Description>A web toolkit consisting of Helpers, Extensions, Builders and Containers to aid Server-side Web Development.</Description>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebToolkit.Contracts\WebToolkit.Contracts.csproj" />
