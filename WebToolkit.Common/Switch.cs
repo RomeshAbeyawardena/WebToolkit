@@ -10,16 +10,17 @@ namespace WebToolkit.Common
     public class Switch<TKey, TValue> : ISwitch<TKey, TValue>
     {
         public static Switch<TKey, TValue> Create(IDictionaryBuilder<TKey, TValue> switchDictionary = null)
+
         {
-            if(switchDictionary == null)
+            if (switchDictionary == null)
                 switchDictionary = DictionaryBuilder<TKey, TValue>.Create();
 
-            return new Switch<TKey, TValue>(switchDictionary.ToDictionary());
+            return Create(switchDictionary.ToDictionary());
         }
 
         public static Switch<TKey, TValue> Create(IDictionary<TKey, TValue> switchDictionary = null)
         {
-            if(switchDictionary == null)
+            if (switchDictionary == null)
                 switchDictionary = new Dictionary<TKey, TValue>();
 
             return new Switch<TKey, TValue>(switchDictionary);
@@ -28,15 +29,15 @@ namespace WebToolkit.Common
         public ISwitch<TKey, TValue> CaseWhen(TKey key, TValue value)
         {
             if (_switchDictionary.ContainsKey(key))
-                throw  new ArgumentException($"Switch already contains a value for {key}", nameof(key));
+                throw new ArgumentException($"Switch already contains a value for {key}", nameof(key));
 
             _switchDictionary.Add(key, value);
-                return this;
+            return this;
         }
 
         public ISwitch<TKey, TValue> CaseWhen(TKey key, Func<TValue> valueExpression)
         {
-            if(valueExpression == null)
+            if (valueExpression == null)
                 throw new ArgumentNullException(nameof(valueExpression));
 
             return CaseWhen(key, valueExpression());
@@ -60,7 +61,6 @@ namespace WebToolkit.Common
             _switchDictionary = switchDictionary;
         }
 
-        private readonly IDictionary<TKey, TValue> _switchDictionary;
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return _switchDictionary.GetEnumerator();
@@ -70,5 +70,7 @@ namespace WebToolkit.Common
         {
             return GetEnumerator();
         }
+
+        private readonly IDictionary<TKey, TValue> _switchDictionary;
     }
 }
