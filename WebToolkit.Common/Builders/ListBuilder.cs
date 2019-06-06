@@ -7,9 +7,6 @@ namespace WebToolkit.Common.Builders
 {
     public sealed class ListBuilder<T> : IListBuilder<T>
     {
-        private IEnumerator<T> Enumerator => _internalList.GetEnumerator();
-        private readonly IList<T> _internalList;
-        
         private ListBuilder(IList<T> list)
         {
             _internalList = list;
@@ -62,5 +59,8 @@ namespace WebToolkit.Common.Builders
         {
             return GetEnumerator();
         }
+
+        private IEnumerator<T> Enumerator => _internalList.GetEnumerator();
+        private readonly IList<T> _internalList;
     }
 }

@@ -64,8 +64,6 @@ namespace WebToolkit.Common.Builders
             AddRange(keyValuePairs);
         }
 
-        private IEnumerator<KeyValuePair<TKey,TValue>> Enumerator => _internalDictionary.GetEnumerator();
-        private readonly IDictionary<TKey, TValue> _internalDictionary;
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
             return Enumerator;
@@ -75,5 +73,8 @@ namespace WebToolkit.Common.Builders
         {
             return GetEnumerator();
         }
+
+        private IEnumerator<KeyValuePair<TKey,TValue>> Enumerator => _internalDictionary.GetEnumerator();
+        private readonly IDictionary<TKey, TValue> _internalDictionary;
     }
 }
