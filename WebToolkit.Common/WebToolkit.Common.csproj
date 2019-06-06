@@ -1,0 +1,8 @@
+<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="Current">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebToolkit.Contracts\WebToolkit.Contracts.csproj" />
+  </ItemGroup>
+ </Project>  
