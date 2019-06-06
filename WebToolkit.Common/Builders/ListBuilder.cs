@@ -54,7 +54,7 @@ namespace WebToolkit.Common.Builders
 
         public IEnumerator<T> GetEnumerator()
         {
-            return _internalList.GetEnumerator();
+            return Enumerator;
         }
 
         IEnumerator IEnumerable.GetEnumerator()

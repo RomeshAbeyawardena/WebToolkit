@@ -6,6 +6,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebToolkit.Common", "WebToo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebToolkit.Contracts", "WebToolkit.Contracts\WebToolkit.Contracts.csproj", "{B11F5567-0A2E-4DA1-93D6-30E1F312856F}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebToolkit.Tests", "WebToolkit.Tests\WebToolkit.Tests.csproj", "{BE93E3E0-BE54-47EB-A740-B85955C13307}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{B11F5567-0A2E-4DA1-93D6-30E1F312856F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B11F5567-0A2E-4DA1-93D6-30E1F312856F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B11F5567-0A2E-4DA1-93D6-30E1F312856F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BE93E3E0-BE54-47EB-A740-B85955C13307}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BE93E3E0-BE54-47EB-A740-B85955C13307}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BE93E3E0-BE54-47EB-A740-B85955C13307}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BE93E3E0-BE54-47EB-A740-B85955C13307}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

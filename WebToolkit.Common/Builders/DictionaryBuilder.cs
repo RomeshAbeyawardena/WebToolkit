@@ -72,7 +72,7 @@ namespace WebToolkit.Common.Builders
         private readonly IDictionary<TKey, TValue> _internalDictionary;
         public IEnumerator<KeyValuePair<TKey, TValue>> GetEnumerator()
         {
-            return _internalDictionary.GetEnumerator();
+            return Enumerator;
         }
 
         IEnumerator IEnumerable.GetEnumerator()
