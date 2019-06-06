@@ -10,7 +10,11 @@ namespace WebToolkit.Tests
         [Fact]
         public void Create_with_DictionaryBuilder_invoke_as_parameter()
         {
-            var sut = Switch<string, int>.Create(builder => builder.Add("moo", 1).Add("baa", 2).Add("woof", 3).Add("raa", 4));
+            var sut = Switch<string, int>.Create(builder => builder
+                .Add("moo", 1)
+                .Add("baa", 2)
+                .Add("woof", 3)
+                .Add("raa", 4));
 
             
             Assert.Contains("moo", sut.ToDictionary());

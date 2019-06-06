@@ -9,7 +9,7 @@ namespace WebToolkit.Contracts.Builders
         IDictionaryBuilder<TKey, TValue> Add(TKey key, TValue value);
         IDictionaryBuilder<TKey, TValue> AddRange(IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs);
         bool ContainsKey(TKey key);
-        bool ContainsKey(KeyValuePair<TKey, TValue> keyValuePair);
+        bool Contains(KeyValuePair<TKey, TValue> keyValuePair);
         IDictionary<TKey, TValue> ToDictionary();
         IEnumerable<KeyValuePair<TKey, TValue>> ToKeyValuePairs();
     }

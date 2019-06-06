@@ -38,7 +38,7 @@ namespace WebToolkit.Common.Builders
             return _internalDictionary.ContainsKey(key);
         }
 
-        public bool ContainsKey(KeyValuePair<TKey, TValue> keyValuePair)
+        public bool Contains(KeyValuePair<TKey, TValue> keyValuePair)
         {
             return _internalDictionary.Contains(keyValuePair);
         }
@@ -50,7 +50,7 @@ namespace WebToolkit.Common.Builders
 
         public IEnumerable<KeyValuePair<TKey, TValue>> ToKeyValuePairs()
         {
-            return _internalDictionary.Select(a => new KeyValuePair<TKey, TValue>(a.Key, a.Value));
+            return _internalDictionary.ToKeyValuePair();
         }
 
         
@@ -62,10 +62,7 @@ namespace WebToolkit.Common.Builders
         private DictionaryBuilder(IEnumerable<KeyValuePair<TKey, TValue>> keyValuePairs)
         {
             _internalDictionary = new Dictionary<TKey, TValue>();
-            foreach (var keyValuePair in keyValuePairs)
-            {
-                _internalDictionary.Add(keyValuePair);
-            }
+            AddRange(keyValuePairs);
         }
 
         private IEnumerator<KeyValuePair<TKey,TValue>> Enumerator => _internalDictionary.GetEnumerator();
