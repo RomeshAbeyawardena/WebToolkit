@@ -9,14 +9,15 @@ namespace WebToolkit.Common.Builders
     {
         private IEnumerator<T> Enumerator => _internalList.GetEnumerator();
         private readonly IList<T> _internalList;
-        private ListBuilder(IEnumerable<T> items)
+        
+        private ListBuilder(IList<T> list)
         {
-            _internalList = new List<T>(items);
+            _internalList = list;
         }
 
-        public static IListBuilder<T> Create(IEnumerable<T> items)
+        public static IListBuilder<T> Create(IList<T> list = null)
         {
-            return new ListBuilder<T>(items);
+            return new ListBuilder<T>(list ?? new List<T>());
         }
 
         public T this[int index] => _internalList[index];

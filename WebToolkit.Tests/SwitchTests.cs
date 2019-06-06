@@ -51,8 +51,8 @@ namespace WebToolkit.Tests
         [Fact]
         public void CaseWhen_throws_ArgumentException_when_key_exists()
         {
-            Assert.Throws<ArgumentException>(() => { Switch<string, int>.Create()
-                .CaseWhen("moo", 1)
+            Assert.Throws<ArgumentException>(() => { var sut = Switch<string, int>.Create();
+                sut.CaseWhen("moo", 1)
                 .CaseWhen("moo", 1); });
         }
 
@@ -60,8 +60,8 @@ namespace WebToolkit.Tests
         public void CaseWhen_throws_ArgumentNullException_when_delegate_is_null()
         {
             Assert.Throws<ArgumentNullException>(() => { 
-                var sut = Switch<string, int>.Create()
-                    .CaseWhen("moo", default(Func<int>)); });
+                var sut = Switch<string, int>.Create();
+                    sut.CaseWhen("moo", default(Func<int>)); });
         }
 
         [Fact]
