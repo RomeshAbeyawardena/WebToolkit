@@ -7,7 +7,7 @@ using WebToolkit.Contracts.Builders;
 
 namespace WebToolkit.Common
 {
-    public class Switch<TKey, TValue> : ISwitch<TKey, TValue>
+    public sealed class Switch<TKey, TValue> : ISwitch<TKey, TValue>
     {
         public static Switch<TKey, TValue> Create(IDictionaryBuilder<TKey, TValue> switchDictionary = null)
 
