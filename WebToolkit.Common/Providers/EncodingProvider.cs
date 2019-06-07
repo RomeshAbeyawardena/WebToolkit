@@ -1,46 +1,47 @@
 ﻿using System;
 using WebToolkit.Contracts;
+using WebToolkit.Contracts.Providers;
 using Encoding = System.Text.Encoding;
 
 namespace WebToolkit.Common.Providers
 {
     public class EncodingProvider : IEncodingProvider
     {
-        public readonly ISwitch<Contracts.Encoding, Encoding> EncodingSwitch;
-        public Encoding GetEncoding(Contracts.Encoding encoding)
+        public readonly ISwitch<Contracts.Providers.Encoding, Encoding> EncodingSwitch;
+        public Encoding GetEncoding(Contracts.Providers.Encoding encoding)
         {
             return EncodingSwitch.Case(encoding);
         }
 
-        public byte[] GetBytes(string value, Contracts.Encoding encoding)
+        public byte[] GetBytes(string value, Contracts.Providers.Encoding encoding)
         {
             var encodingObj = GetEncoding_(encoding);
 
             return encodingObj.GetBytes(value);
         }
 
-        public string GetString(byte[] bytes, Contracts.Encoding encoding)
+        public string GetString(byte[] bytes, Contracts.Providers.Encoding encoding)
         {
             var encodingObj = GetEncoding_(encoding);
 
             return encodingObj.GetString(bytes);
         }
 
-        public EncodingProvider(ISwitch<Contracts.Encoding, Encoding> encodingSwitch = null)
+        public EncodingProvider(ISwitch<Contracts.Providers.Encoding, Encoding> encodingSwitch = null)
         {
             if(encodingSwitch == null)
-                encodingSwitch = Switch<Contracts.Encoding, Encoding>.Create(defaultValueExpression: () =>  default(Encoding))
-                    .CaseWhen(Contracts.Encoding.Ascii, Encoding.ASCII)
-                    .CaseWhen(Contracts.Encoding.BigEndianUnicode, Encoding.BigEndianUnicode)
-                    .CaseWhen(Contracts.Encoding.Utf32, Encoding.UTF32)
-                    .CaseWhen(Contracts.Encoding.Utf7, Encoding.UTF7)
-                    .CaseWhen(Contracts.Encoding.Utf8, Encoding.UTF8)
-                    .CaseWhen(Contracts.Encoding.Unicode, Encoding.Unicode);
+                encodingSwitch = Switch<Contracts.Providers.Encoding, Encoding>.Create(defaultValueExpression: () =>  default(Encoding))
+                    .CaseWhen(Contracts.Providers.Encoding.Ascii, Encoding.ASCII)
+                    .CaseWhen(Contracts.Providers.Encoding.BigEndianUnicode, Encoding.BigEndianUnicode)
+                    .CaseWhen(Contracts.Providers.Encoding.Utf32, Encoding.UTF32)
+                    .CaseWhen(Contracts.Providers.Encoding.Utf7, Encoding.UTF7)
+                    .CaseWhen(Contracts.Providers.Encoding.Utf8, Encoding.UTF8)
+                    .CaseWhen(Contracts.Providers.Encoding.Unicode, Encoding.Unicode);
 
             EncodingSwitch = encodingSwitch;
         }
 
-        private Encoding GetEncoding_(Contracts.Encoding encoding)
+        private Encoding GetEncoding_(Contracts.Providers.Encoding encoding)
         {
             var encodingObj = GetEncoding(encoding);
 

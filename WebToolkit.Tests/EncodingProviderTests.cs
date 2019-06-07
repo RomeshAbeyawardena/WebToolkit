@@ -4,7 +4,7 @@ using WebToolkit.Common;
 using WebToolkit.Common.Providers;
 using WebToolkit.Contracts;
 using Xunit;
-using Encoding = WebToolkit.Contracts.Encoding;
+using Encoding = WebToolkit.Contracts.Providers.Encoding;
 
 namespace WebToolkit.Tests
 {
