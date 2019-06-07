@@ -1,4 +1,5 @@
-﻿using WebToolkit.Common.Extensions;
+﻿using System;
+using WebToolkit.Common.Extensions;
 using Xunit;
 
 namespace WebToolkit.Tests
@@ -26,7 +27,7 @@ namespace WebToolkit.Tests
         [Fact]
         public void String_ValueOrDefault_returns_value_when_not_default()
         {
-            var myTestValue = "hello".ValueOrDefault(false);
+            var myTestValue = "hello".ValueOrDefault(string.Empty);
 
             Assert.IsNotType<bool>(myTestValue);
             Assert.IsType<string>(myTestValue);

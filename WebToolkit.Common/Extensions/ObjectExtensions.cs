@@ -7,7 +7,9 @@ namespace WebToolkit.Common.Extensions
     {
         public static object ValueOrDefault(this object value, object defaultValue)
         {
-            return value ?? defaultValue;
+            return (value is string strValue) 
+                ? ValueOrDefault(strValue, defaultValue as string) 
+                : value ?? defaultValue;
         }
 
         public static string ValueOrDefault(this string value, string defaultValue)
