@@ -85,6 +85,17 @@ namespace WebToolkit.Tests
             Assert.Equal(2, sut.Case("boo"));
         }
 
+        [Fact]
+        public void Case_returns_default_value_when_key_not_exists()
+        {
+            var sut = Switch<string, int>.Create()
+                .CaseWhen("moo", 1)
+                .CaseWhen("boo", () => 1 + 1)
+                .CaseWhenDefault(23);
+
+            Assert.Equal(23, sut.Case("too"));
+        }
+
 
         [Fact]
         public void Case_throws_ArgumentException_when_key_not_exists()
