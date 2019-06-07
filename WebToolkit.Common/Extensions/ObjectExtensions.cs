@@ -1,4 +1,5 @@
 ﻿using WebToolkit.Contracts;
+using WebToolkit.Contracts.Providers;
 
 namespace WebToolkit.Common.Extensions
 {
@@ -16,12 +17,12 @@ namespace WebToolkit.Common.Extensions
             return string.IsNullOrEmpty(value) ? value : defaultValue;
         }
 
-        public static byte[] GetBytes(this string value, IEncodingProvider encodingProvider, Contracts.Encoding encoding)
+        public static byte[] GetBytes(this string value, IEncodingProvider encodingProvider, Encoding encoding)
         {
             return encodingProvider.GetBytes(value, encoding);
         }
 
-        public static string GetString(this byte[] byteValue, IEncodingProvider encodingProvider, Contracts.Encoding encoding)
+        public static string GetString(this byte[] byteValue, IEncodingProvider encodingProvider, Encoding encoding)
         {
             return encodingProvider.GetString(byteValue, encoding);
         }

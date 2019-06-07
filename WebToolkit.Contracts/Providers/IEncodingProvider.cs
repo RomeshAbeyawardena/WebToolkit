@@ -1,4 +1,4 @@
-﻿namespace WebToolkit.Contracts
+﻿namespace WebToolkit.Contracts.Providers
 {
     public enum Encoding { Ascii, BigEndianUnicode, Utf32, Utf7, Utf8, Unicode }
     public interface IEncodingProvider
