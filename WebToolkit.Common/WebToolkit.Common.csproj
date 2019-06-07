@@ -6,6 +6,9 @@
     <Description>A web toolkit consisting of Helpers, Extensions, Builders and Containers to aid Server-side Web Development.</Description>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="8.1.1" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\WebToolkit.Contracts\WebToolkit.Contracts.csproj" />
   </ItemGroup>
  </Project>  
