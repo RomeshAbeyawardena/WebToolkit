@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using Newtonsoft.Json.Linq;
 
 namespace WebToolkit.Common.Extensions
 {
@@ -23,6 +25,22 @@ namespace WebToolkit.Common.Extensions
             params KeyValuePair<TKey, TValue>[] keyValuePairs)
         {
             dictionary.AddRange(keyValuePairs.AsEnumerable());
+        }
+
+        public static JObject AsJObject<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, Func<TKey, string> keyToString = null)
+        {
+            if (keyToString == null)
+                keyToString = key => key.ToString();
+
+            var jObject = new JObject();
+
+            foreach (var keyValuePair in dictionary)
+            {
+                jObject.Add(keyToString.Invoke(keyValuePair.Key), 
+                    JToken.FromObject(keyValuePair.Value));
+            }
+
+            return jObject;
         }
     }
 }
