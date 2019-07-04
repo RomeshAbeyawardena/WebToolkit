@@ -5,4 +5,7 @@
   <PropertyGroup>
     <Description>Contracts for the web toolkit consisting of Helpers, Extensions, Builders and Containers to aid Server-side Web Development to support dependency injection.</Description>
   </PropertyGroup>
- </Project>  
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.0"></PackageReference>
+  </ItemGroup>
+</Project>  

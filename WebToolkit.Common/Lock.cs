@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
-using System.Threading;
 using WebToolkit.Contracts;
 
 namespace WebToolkit.Common
