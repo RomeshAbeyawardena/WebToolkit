@@ -7,11 +7,11 @@ using WebToolkit.Contracts.Providers;
 
 namespace WebToolkit.Common
 {
-    public class ControllerBase : Controller
+    public abstract class ControllerBase : Controller
     {
         private IMapperProvider MapperProvider => GetRequiredService<IMapperProvider>();
 
-        protected TServiceImplementation GetRequiredService<TServiceImplementation>()
+        protected virtual TServiceImplementation GetRequiredService<TServiceImplementation>()
         {
             if (HttpContext == null)
                 throw new InvalidOperationException("HttpContext unavailable.");
@@ -19,7 +19,7 @@ namespace WebToolkit.Common
                 .RequestServices.GetRequiredService<TServiceImplementation>();
         }
 
-        protected async Task<T> LoadAsync<T>(CacheType cacheType, string key, Func<Task<T>> loader)
+        protected virtual async Task<T> LoadAsync<T>(CacheType cacheType, string key, Func<Task<T>> loader)
         {
             var cacheProvider = GetRequiredService<ICacheProvider>();
             var result = await cacheProvider.Get<T>(cacheType, key);
