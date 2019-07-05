@@ -1,5 +1,5 @@
 ﻿using System;
-using TA.Contracts.Providers;
+using WebToolkit.Contracts.Providers;
 
 namespace WebToolkit.Common.Providers
 {
