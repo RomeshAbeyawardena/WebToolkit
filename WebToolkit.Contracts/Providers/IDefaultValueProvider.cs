@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TA.Contracts.Providers
+namespace WebToolkit.Contracts.Providers
 {
     public interface IDefaultValueProvider<in TModel>
     {
