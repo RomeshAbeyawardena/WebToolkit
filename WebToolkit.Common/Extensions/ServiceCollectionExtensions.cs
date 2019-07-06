@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Internal;
 using WebToolkit.Common.Providers;
 using WebToolkit.Contracts;
 using WebToolkit.Contracts.Data;
@@ -55,7 +56,9 @@ namespace WebToolkit.Common.Extensions
 
         public static IServiceCollection RegisterProviders(this IServiceCollection service)
         {
-            return service.AddSingleton<IDateTimeProvider, DateTimeProvider>()
+            return service
+                .AddSingleton<ISystemClock, SystemClock>()
+                .AddSingleton<IDateTimeProvider, DateTimeProvider>()
                 .AddSingleton<IMapperProvider, MapperProvider>()
                 .AddSingleton<ICryptographyProvider, CryptographyProvider>()
                 .AddSingleton<ICacheProvider, CacheProvider>()
