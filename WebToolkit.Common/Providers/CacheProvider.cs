@@ -11,12 +11,14 @@ namespace WebToolkit.Common.Providers
 {
     public class CacheProvider : ICacheProvider
     {
+        private readonly IJSonSettings _jsonSettings;
         private readonly IDistributedCache _distributedCache;
         private readonly IAsyncLockDictionary _asyncLockDictionary;
 
-        public CacheProvider(IDistributedCache distributedCache, IAsyncLockDictionary asyncLockDictionary)
+        public CacheProvider(IJSonSettings jsonSettings, IDistributedCache distributedCache, IAsyncLockDictionary asyncLockDictionary)
         {
             _keyEntries = new List<string>();
+            _jsonSettings = jsonSettings;
             _distributedCache = distributedCache;
             _asyncLockDictionary = asyncLockDictionary;
         }
@@ -28,7 +30,7 @@ namespace WebToolkit.Common.Providers
                 if (!_keyEntries.Contains(key))
                     return default;
                 var result = await _distributedCache.GetStringAsync(key, CancellationToken.None);
-                return result == null ? default : JToken.Parse(result).ToObject<T>();
+                return result == null ? default : JToken.Parse(result, _jsonSettings.LoadSettings).ToObject<T>();
             }).Invoke();
         }
 
@@ -37,7 +39,7 @@ namespace WebToolkit.Common.Providers
             await _asyncLockDictionary.GetOrCreate("Set", async () =>
             {
                 _keyEntries.Add(key);
-                var val = JToken.FromObject(value).ToString();
+                var val = JToken.FromObject(value, _jsonSettings.Serializer).ToString();
                 await _distributedCache.SetStringAsync(key, val);
             }).Invoke();
         }
