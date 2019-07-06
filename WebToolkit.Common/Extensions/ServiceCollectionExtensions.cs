@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using WebToolkit.Common.Providers;
+using WebToolkit.Contracts;
 using WebToolkit.Contracts.Data;
 using WebToolkit.Contracts.Providers;
 
@@ -23,6 +24,15 @@ namespace WebToolkit.Common.Extensions
             }
 
             return services;
+        }
+
+        public static IServiceCollection RegisterProviders(this IServiceCollection service)
+        {
+            return service.AddSingleton<IDateTimeProvider, DateTimeProvider>()
+                .AddSingleton<IMapperProvider, MapperProvider>()
+                .AddSingleton<ICryptographyProvider, CryptographyProvider>()
+                .AddSingleton<ICacheProvider, CacheProvider>()
+                .AddSingleton<IAsyncLockDictionary, DefaultAsyncLockDictionary>(); 
         }
 
         public static IServiceCollection AddDefaultValueProvider<TModel>(this IServiceCollection services, Action<TModel> defaults)
