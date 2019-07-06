@@ -1,6 +1,5 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WebToolkit.Contracts;
@@ -9,19 +8,19 @@ namespace WebToolkit.Common
 {
     public class DefaultJSonSettings : IJSonSettings
     {
-        public DefaultJSonSettings(MvcJsonOptions mvcJsonOptions)
-         : this(new JsonLoadSettings(), JsonSerializer.CreateDefault(mvcJsonOptions.SerializerSettings))
+        public DefaultJSonSettings(MvcJsonOptions mvcJSonOptions)
+         : this(new JsonLoadSettings(), JsonSerializer.CreateDefault(mvcJSonOptions.SerializerSettings))
         {
         }
 
-        public DefaultJSonSettings(JsonLoadSettings jsonLoadSettings, JsonSerializer jsonSerializer)
-         : this(jSonSettings => { jSonSettings.LoadSettings = jsonLoadSettings; jSonSettings.Serializer = jsonSerializer; })
+        public DefaultJSonSettings(JsonLoadSettings jSonLoadSettings, JsonSerializer jSonSerializer)
+         : this(jSonSettings => { jSonSettings.LoadSettings = jSonLoadSettings; jSonSettings.Serializer = jSonSerializer; })
         {
         }
 
-        public DefaultJSonSettings(Action<IJSonSettings> jsonSettings)
+        public DefaultJSonSettings(Action<IJSonSettings> jSonSettings)
         {
-            jsonSettings(this);
+            jSonSettings(this);
         }
 
         public JsonLoadSettings LoadSettings { get; set; }
