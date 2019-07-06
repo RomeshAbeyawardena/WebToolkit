@@ -5,7 +5,7 @@ namespace WebToolkit.Contracts
 {
     public interface IJSonSettings
     {
-        JsonLoadSettings LoadSettings { get; }
-        JsonSerializer Serializer { get; }
+        JsonLoadSettings LoadSettings { get; set; }
+        JsonSerializer Serializer { get; set; }
     }
 }
