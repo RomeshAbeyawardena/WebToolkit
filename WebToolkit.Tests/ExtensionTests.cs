@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
+﻿using System.Collections.Generic;
 using Moq;
 using WebToolkit.Common.Extensions;
-using WebToolkit.Contracts;
 using WebToolkit.Contracts.Providers;
 using Xunit;
 
