@@ -23,7 +23,15 @@ namespace WebToolkit.Common.Providers
         public IEnumerable<byte> Encrypt(string value, IEnumerable<byte> salt, IEnumerable<byte> initialVector, Encoding encoding)
         {
             var keyArray = salt.ToArray();
+
+            if(keyArray.Length > 128)
+                throw new ArgumentException($"{nameof(keyArray)} must not exceed a length of 128.");
+
             var iVArray = initialVector.ToArray();
+
+            if(iVArray.Length != 16)
+                throw new ArgumentException($"{nameof(iVArray)} must have a length of 16.");
+
             using (var encryption = new RijndaelManaged())
             {
                 
