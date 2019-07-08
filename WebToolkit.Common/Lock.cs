@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using WebToolkit.Contracts;
 
 namespace WebToolkit.Common
@@ -6,6 +7,12 @@ namespace WebToolkit.Common
     public sealed class Lock<TResult> : ILock<TResult>
     {
         private readonly object _lockObject = new object();
+        private readonly Random _random = new Random();
+        public static Lock<TResult> Create(TResult initialValue, Func<TResult, TResult> doWork)
+        {
+            return new Lock<TResult>(initialValue, doWork);
+        }
+
         public TResult Value { get; private set; }
         public Func<TResult, TResult> DoWork { get; }
         public void Run()
@@ -13,12 +20,13 @@ namespace WebToolkit.Common
             lock (_lockObject)
             {
                 Value = DoWork(Value);
+                Thread.Sleep(_random.Next(100, 1000));
             }
         }
 
-        public Lock(TResult value, Func<TResult, TResult> doWork)
+        private Lock(TResult initialValue, Func<TResult, TResult> doWork)
         {
-            Value = value;
+            Value = initialValue;
             DoWork = doWork;
         }
     }

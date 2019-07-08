@@ -10,7 +10,7 @@ namespace WebToolkit.Tests
         [Fact]
         public void Run_returns()
         {
-            var sut = new Lock<decimal>(100,a => a + 0.02m);
+            var sut = Lock<decimal>.Create(100,a => a + 0.02m);
 
             var taskList = new List<Task>();
             for (var i = 0; i < 25; i++)
