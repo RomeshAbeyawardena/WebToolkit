@@ -5,9 +5,14 @@ namespace WebToolkit.Common.Providers
 {
     public class DefaultValuesProvider<TModel> : IDefaultValueProvider<TModel>
     {
-        public DefaultValuesProvider(Action<TModel> defaults)
+        private DefaultValuesProvider(Action<TModel> defaults)
         {
             Defaults = defaults;
+        }
+
+        public static IDefaultValueProvider<TModel> Create(Action<TModel> defaultValues)
+        {
+            return new DefaultValuesProvider<TModel>(defaultValues);
         }
 
         public Action<TModel> Defaults { get; }

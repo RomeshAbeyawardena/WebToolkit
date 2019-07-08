@@ -76,13 +76,13 @@ namespace WebToolkit.Common.Extensions
 
         public static IServiceCollection AddDefaultValueProvider<TModel>(this IServiceCollection services, Action<TModel> defaults)
         {
-            return services.AddSingleton<IDefaultValueProvider<TModel>>(new DefaultValuesProvider<TModel>(defaults));
+            return services.AddSingleton(DefaultValuesProvider<TModel>.Create(defaults));
         }
 
         
         public static IServiceCollection AddDefaultValueProvider<TModel>(this IServiceCollection services)
         {
-            return services.AddSingleton<IDefaultValueProvider<TModel>>(new DefaultValuesProvider<TModel>(model => {}));
+            return services.AddSingleton(DefaultValuesProvider<TModel>.Create(model => {}));
         }
     }
 }

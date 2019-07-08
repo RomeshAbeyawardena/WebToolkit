@@ -11,14 +11,14 @@ namespace WebToolkit.Common
 {
     public sealed class Switch<TKey, TValue> : ISwitch<TKey, TValue>
     {
-        public static Switch<TKey, TValue> Create(Func<IDictionaryBuilder<TKey, TValue>, IDictionaryBuilder<TKey, TValue>> switchDictionaryBuilder, 
+        public static ISwitch<TKey, TValue> Create(Func<IDictionaryBuilder<TKey, TValue>, IDictionaryBuilder<TKey, TValue>> switchDictionaryBuilder, 
             Func<object> defaultValueExpression = null)
         {
             return Create(switchDictionaryBuilder(DictionaryBuilder<TKey, TValue>.Create())
                 .ToDictionary(), defaultValueExpression);
         }
 
-        public static Switch<TKey, TValue> Create(IDictionary<TKey, TValue> switchDictionary = null, 
+        public static ISwitch<TKey, TValue> Create(IDictionary<TKey, TValue> switchDictionary = null, 
             Func<object> defaultValueExpression = null)
         {
             if (switchDictionary == null)
