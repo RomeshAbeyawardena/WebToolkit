@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using System.Xml.Linq;
+using WebToolkit.Common.Attributes;
 using WebToolkit.Common.Builders;
 using WebToolkit.Contracts;
 using WebToolkit.Contracts.Builders;
@@ -82,6 +85,11 @@ namespace WebToolkit.Common
         
         private Switch(IDictionary<TKey, TValue> switchDictionary, Func<TValue> defaultValueExpression)
         {
+            var defaultSwitchCaseAttribute = (DefaultSwitchCaseAttribute)GetType().GetCustomAttribute(typeof(DefaultSwitchCaseAttribute));
+
+            if (defaultSwitchCaseAttribute != null)
+                defaultValueExpression = defaultSwitchCaseAttribute.Value;
+
             _switchDictionary = switchDictionary;
             _defaultValueExpression = defaultValueExpression;
         }
