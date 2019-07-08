@@ -1,9 +1,33 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
+using WebToolkit.Contracts;
 
 namespace WebToolkit.Common
 {
+    public class TryCatchHandler<T> : ITryCatchHandler<T>
+    {
+        public ITryCatchHandler<T> Create()
+        {
+            return new TryCatchHandler<T>();
+        }
+
+        public T Handle(Func<T> tryFunc, Action<Exception> catchFunc, Action finallyAction = null, params Type[] catchExceptionTypesArray)
+        {
+            return TryCatchHandler.Handle(tryFunc, catchFunc, finallyAction, catchExceptionTypesArray);
+        }
+
+        public Task<T> HandleAsync(Func<Task<T>> tryFunc, Func<Exception, Task> catchFunc, Func<Task> finallyFunc = null, params Type[] catchExceptionTypesArray)
+        {
+            return TryCatchHandler.HandleAsync(tryFunc, catchFunc, finallyFunc, catchExceptionTypesArray);
+        }
+
+        private TryCatchHandler()
+        {
+            
+        }
+    }
+
     public static class TryCatchHandler
     {
         public static T Handle<T>(Func<T> tryFunc, Action<Exception> catchFunc, Action finallyAction = null, params Type[] catchExceptionTypesArray)
