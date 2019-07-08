@@ -4,7 +4,7 @@ using Xunit;
 
 namespace WebToolkit.Tests
 {
-    public class RetryHandleTests
+    public class RetryHandlerTests
     {
         [Theory]
         [InlineData(1)]
@@ -14,7 +14,7 @@ namespace WebToolkit.Tests
         public void RetryHandle_Retries_x_times(int times)
         {
             var retryAttempt = 0;
-            var sut = RetryHandle.Create(options =>
+            var sut = RetryHandler.Create(options =>
             {
                 options.MaximumAttempts = times;
                 options.Timeout = 1000;
@@ -32,7 +32,7 @@ namespace WebToolkit.Tests
         public void RetryHandle_Retries_x_times_then_passes_on_last_attempt(int times, string passValue)
         {
             var retryAttempt = 0;
-            var sut = RetryHandle.Create(options =>
+            var sut = RetryHandler.Create(options =>
             {
                 options.MaximumAttempts = times;
                 options.Timeout = 1000;

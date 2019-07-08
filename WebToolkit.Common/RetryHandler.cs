@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace WebToolkit.Common
 {
-    public class RetryHandle
+    public class RetryHandler
     {
-        private RetryHandle(Action<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
+        private RetryHandler(Action<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
         {
             Options = new RetryHandleOptions {ExceptionTypes = exceptionTypes};
             retryOptionsAction(Options);
@@ -60,9 +60,9 @@ namespace WebToolkit.Common
             return result;
         }
 
-        public static RetryHandle Create(Action<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
+        public static RetryHandler Create(Action<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
         {
-            return new RetryHandle(retryOptionsAction, exceptionTypes);
+            return new RetryHandler(retryOptionsAction, exceptionTypes);
         }
     }
 }
