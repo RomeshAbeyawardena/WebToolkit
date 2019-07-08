@@ -8,17 +8,16 @@ namespace WebToolkit.Common
     {
         private RetryHandle(Action<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
         {
-            Options = new RetryHandleOptions();
-            Options.ExceptionTypes = exceptionTypes;
+            Options = new RetryHandleOptions {ExceptionTypes = exceptionTypes};
             retryOptionsAction(Options);
         }
-        private int attempts;
 
         public RetryHandleOptions Options { get; }
 
         public T Handle<T>(Func<T> tryFunc, Action<Exception> catchFunc = null, Action finallyFunc = null)
         {
             T result = default;
+            var attempts = 0;
 
             var success = false;
             while (!success && attempts < Options.MaximumAttempts)
