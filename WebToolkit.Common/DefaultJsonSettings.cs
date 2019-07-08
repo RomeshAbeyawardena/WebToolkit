@@ -8,19 +8,35 @@ namespace WebToolkit.Common
 {
     public class DefaultJSonSettings : IJSonSettings
     {
-        public DefaultJSonSettings(MvcJsonOptions mvcJSonOptions)
+        private DefaultJSonSettings(MvcJsonOptions mvcJSonOptions)
          : this(new JsonLoadSettings(), JsonSerializer.CreateDefault(mvcJSonOptions.SerializerSettings))
         {
         }
 
-        public DefaultJSonSettings(JsonLoadSettings jSonLoadSettings, JsonSerializer jSonSerializer)
+        private DefaultJSonSettings(JsonLoadSettings jSonLoadSettings, JsonSerializer jSonSerializer)
          : this(jSonSettings => { jSonSettings.LoadSettings = jSonLoadSettings; jSonSettings.Serializer = jSonSerializer; })
         {
         }
 
-        public DefaultJSonSettings(Action<IJSonSettings> jSonSettings)
+        private DefaultJSonSettings(Action<IJSonSettings> jSonSettings)
         {
             jSonSettings(this);
+        }
+
+        public static IJSonSettings Create(Action<IJSonSettings> jSonSettings)
+        {
+            return new DefaultJSonSettings(jSonSettings);
+        }
+
+        public static IJSonSettings Create(JsonLoadSettings jSonLoadSettings, JsonSerializer jSonSerializer)
+        {
+            return new DefaultJSonSettings(jSonLoadSettings, jSonSerializer);
+        }
+
+        
+        public static IJSonSettings Create(MvcJsonOptions mvcJSonOptions)
+        {
+            return new DefaultJSonSettings(mvcJSonOptions);
         }
 
         public JsonLoadSettings LoadSettings { get; set; }
