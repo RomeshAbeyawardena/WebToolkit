@@ -22,14 +22,6 @@ namespace WebToolkit.Tests
         }
 
         [Fact]
-        public void Constructor_creates_new_Switch_when_no_parameters_are_passed()
-        {
-            var sut = new EncodingProvider();
-
-            Assert.NotNull(sut.EncodingSwitch);
-        }
-
-        [Fact]
         public void GetBytes_throws_ArgumentException_when_case_returns_null()
         {
             var sut = new EncodingProvider(Switch<Encoding, System.Text.Encoding>.Create(defaultValueExpression: () => null));
@@ -39,7 +31,7 @@ namespace WebToolkit.Tests
         [Fact]
         public void GetBytes_returns()
         {
-            var sut = new EncodingProvider();
+            var sut = new EncodingProvider(Switch<Encoding, System.Text.Encoding>.Create().CaseWhen(Encoding.Ascii, System.Text.Encoding.ASCII));
             var result = sut.GetBytes("test", Encoding.Ascii);
             Assert.NotNull(result);
         }
@@ -47,7 +39,7 @@ namespace WebToolkit.Tests
         [Fact]
         public void GetString_returns()
         {
-            var sut = new EncodingProvider();
+            var sut = new EncodingProvider(Switch<Encoding, System.Text.Encoding>.Create().CaseWhen(Encoding.Ascii, System.Text.Encoding.ASCII));
             var result = sut.GetString(new byte[]{ 32, 144, 122 }, Encoding.Ascii);
             Assert.NotNull(result);
         }
