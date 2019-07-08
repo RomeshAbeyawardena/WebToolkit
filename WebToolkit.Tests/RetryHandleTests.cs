@@ -29,7 +29,7 @@ namespace WebToolkit.Tests
         [InlineData(3, "John Doe")]
         [InlineData(5, "Jane Doe")]
         [InlineData(10, "Yet, Another test")]
-        public void RetryHandle_Retries_x_times_then_passes(int times, string passValue)
+        public void RetryHandle_Retries_x_times_then_passes_on_last_attempt(int times, string passValue)
         {
             var retryAttempt = 0;
             var sut = RetryHandle.Create(options =>
