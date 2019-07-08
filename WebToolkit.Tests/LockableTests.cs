@@ -46,7 +46,8 @@ namespace WebToolkit.Tests
         [Fact]
         public void void_Run_returns()
         {
-            var sut = Lock.Create(() => Assert.True(true));
+            var lockTaskCount = 0;
+            var sut = Lock.Create(() => lockTaskCount++);
 
             var taskList = new List<Task>();
             for (var i = 0; i < 25; i++)
@@ -55,7 +56,8 @@ namespace WebToolkit.Tests
                 task.Start();
                 taskList.Add(task);
             }
-
+            Task.WaitAll(taskList.ToArray());
+            Assert.Equal(25, lockTaskCount);
         }
     }
 }
