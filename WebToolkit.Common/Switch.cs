@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
+using WebToolkit.Common.Attributes;
 using WebToolkit.Common.Builders;
 using WebToolkit.Contracts;
 using WebToolkit.Contracts.Builders;
@@ -10,14 +12,14 @@ namespace WebToolkit.Common
     public sealed class Switch<TKey, TValue> : ISwitch<TKey, TValue>
     {
         public static Switch<TKey, TValue> Create(Func<IDictionaryBuilder<TKey, TValue>, IDictionaryBuilder<TKey, TValue>> switchDictionaryBuilder, 
-            Func<TValue> defaultValueExpression = null)
+            Func<object> defaultValueExpression = null)
         {
             return Create(switchDictionaryBuilder(DictionaryBuilder<TKey, TValue>.Create())
                 .ToDictionary(), defaultValueExpression);
         }
 
         public static Switch<TKey, TValue> Create(IDictionary<TKey, TValue> switchDictionary = null, 
-            Func<TValue> defaultValueExpression = null)
+            Func<object> defaultValueExpression = null)
         {
             if (switchDictionary == null)
                 switchDictionary = new Dictionary<TKey, TValue>();
@@ -47,7 +49,7 @@ namespace WebToolkit.Common
             return CaseWhenDefault(() => value);
         }
 
-        public ISwitch<TKey, TValue> CaseWhenDefault(Func<TValue> valueExpression)
+        public ISwitch<TKey, TValue> CaseWhenDefault(Func<object> valueExpression)
         {
             _defaultValueExpression = valueExpression;
             return this;
@@ -59,7 +61,7 @@ namespace WebToolkit.Common
                 return value;
 
             if (_defaultValueExpression != null)
-                return _defaultValueExpression();
+                return (TValue)_defaultValueExpression();
 
             throw new ArgumentException($"Unable to find a value for {key}", nameof(key));
         }
@@ -80,13 +82,18 @@ namespace WebToolkit.Common
         }
 
         
-        private Switch(IDictionary<TKey, TValue> switchDictionary, Func<TValue> defaultValueExpression)
+        private Switch(IDictionary<TKey, TValue> switchDictionary, Func<object> defaultValueExpression)
         {
+            var defaultSwitchCaseAttribute = (DefaultSwitchCaseAttribute)GetType().GetCustomAttribute(typeof(DefaultSwitchCaseAttribute));
+
+            if (defaultSwitchCaseAttribute != null)
+                defaultValueExpression = defaultSwitchCaseAttribute.Value;
+
             _switchDictionary = switchDictionary;
             _defaultValueExpression = defaultValueExpression;
         }
 
-        private Func<TValue> _defaultValueExpression;
+        private Func<object> _defaultValueExpression;
         private readonly IDictionary<TKey, TValue> _switchDictionary;
     }
 }

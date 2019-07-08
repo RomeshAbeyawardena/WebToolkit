@@ -8,7 +8,7 @@ namespace WebToolkit.Contracts
         ISwitch<TKey, TValue> CaseWhen(TKey key, TValue value);
         ISwitch<TKey, TValue> CaseWhen(TKey key, Func<TValue> valueExpression);
         ISwitch<TKey, TValue> CaseWhenDefault(TValue value);
-        ISwitch<TKey, TValue> CaseWhenDefault(Func<TValue> valueExpression);
+        ISwitch<TKey, TValue> CaseWhenDefault(Func<object> valueExpression);
         TValue Case(TKey key);
 
         IDictionary<TKey, TValue> ToDictionary();
