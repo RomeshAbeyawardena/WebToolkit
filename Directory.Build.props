@@ -10,10 +10,10 @@
     <NeutralLanguage>en</NeutralLanguage>
     <Copyright>MIT</Copyright>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>Project URL</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/RomeshAbeyawardena/WebToolkit/projects/1</PackageProjectUrl>
     <PackageIconUrl>Icon URL</PackageIconUrl>
-    <RepositoryUrl>Repo URL</RepositoryUrl>
-    <RepositoryType>Repo type</RepositoryType>
+    <RepositoryUrl>https://github.com/RomeshAbeyawardena/WebToolkit</RepositoryUrl>
+    <RepositoryType>GIT</RepositoryType>
     <PackageTags>Web Toolkit Helpers Extensions Builders Containers</PackageTags>
     <PackageReleaseNotes>Release</PackageReleaseNotes>
   </PropertyGroup>
