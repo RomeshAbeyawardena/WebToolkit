@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
+using WebToolkit.Contracts;
 using WebToolkit.Contracts.Providers;
 using Encoding = System.Text.Encoding;
 using HashAlgorithm = WebToolkit.Contracts.Providers.HashAlgorithm;
@@ -95,6 +96,6 @@ namespace WebToolkit.Common.Providers
                 });
         }
 
-        private readonly Switch<HashAlgorithm, Func<IEnumerable<byte>, IEnumerable<byte>,  IEnumerable<byte>>> _hashAlgorithmSwitch;
+        private readonly ISwitch<HashAlgorithm, Func<IEnumerable<byte>, IEnumerable<byte>,  IEnumerable<byte>>> _hashAlgorithmSwitch;
     }
 }

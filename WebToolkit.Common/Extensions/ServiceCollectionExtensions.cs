@@ -9,6 +9,7 @@ using WebToolkit.Common.Providers;
 using WebToolkit.Contracts;
 using WebToolkit.Contracts.Data;
 using WebToolkit.Contracts.Providers;
+using Encoding = System.Text.Encoding;
 
 namespace WebToolkit.Common.Extensions
 {
@@ -57,6 +58,14 @@ namespace WebToolkit.Common.Extensions
         public static IServiceCollection RegisterProviders(this IServiceCollection service)
         {
             return service
+                .AddSingleton(Switch<Contracts.Providers.Encoding, Encoding>.Create(defaultValueExpression: () =>  default(Encoding))
+                    .CaseWhen(Contracts.Providers.Encoding.Ascii, Encoding.ASCII)
+                    .CaseWhen(Contracts.Providers.Encoding.BigEndianUnicode, Encoding.BigEndianUnicode)
+                    .CaseWhen(Contracts.Providers.Encoding.Utf32, Encoding.UTF32)
+                    .CaseWhen(Contracts.Providers.Encoding.Utf7, Encoding.UTF7)
+                    .CaseWhen(Contracts.Providers.Encoding.Utf8, Encoding.UTF8)
+                    .CaseWhen(Contracts.Providers.Encoding.Unicode, Encoding.Unicode))
+                .AddSingleton<IEncodingProvider, EncodingProvider>()
                 .AddSingleton<ISystemClock, SystemClock>()
                 .AddSingleton<IDateTimeProvider, DateTimeProvider>()
                 .AddSingleton<IMapperProvider, MapperProvider>()
@@ -67,13 +76,13 @@ namespace WebToolkit.Common.Extensions
 
         public static IServiceCollection AddDefaultValueProvider<TModel>(this IServiceCollection services, Action<TModel> defaults)
         {
-            return services.AddSingleton<IDefaultValueProvider<TModel>>(new DefaultValuesProvider<TModel>(defaults));
+            return services.AddSingleton(DefaultValuesProvider<TModel>.Create(defaults));
         }
 
         
         public static IServiceCollection AddDefaultValueProvider<TModel>(this IServiceCollection services)
         {
-            return services.AddSingleton<IDefaultValueProvider<TModel>>(new DefaultValuesProvider<TModel>(model => {}));
+            return services.AddSingleton(DefaultValuesProvider<TModel>.Create(model => {}));
         }
     }
 }

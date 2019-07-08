@@ -27,17 +27,8 @@ namespace WebToolkit.Common.Providers
             return encodingObj.GetString(bytes);
         }
 
-        public EncodingProvider(ISwitch<Contracts.Providers.Encoding, Encoding> encodingSwitch = null)
+        public EncodingProvider(ISwitch<Contracts.Providers.Encoding, Encoding> encodingSwitch)
         {
-            if(encodingSwitch == null)
-                encodingSwitch = Switch<Contracts.Providers.Encoding, Encoding>.Create(defaultValueExpression: () =>  default(Encoding))
-                    .CaseWhen(Contracts.Providers.Encoding.Ascii, Encoding.ASCII)
-                    .CaseWhen(Contracts.Providers.Encoding.BigEndianUnicode, Encoding.BigEndianUnicode)
-                    .CaseWhen(Contracts.Providers.Encoding.Utf32, Encoding.UTF32)
-                    .CaseWhen(Contracts.Providers.Encoding.Utf7, Encoding.UTF7)
-                    .CaseWhen(Contracts.Providers.Encoding.Utf8, Encoding.UTF8)
-                    .CaseWhen(Contracts.Providers.Encoding.Unicode, Encoding.Unicode);
-
             EncodingSwitch = encodingSwitch;
         }
 
