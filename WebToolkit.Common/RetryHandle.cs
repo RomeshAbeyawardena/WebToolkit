@@ -31,7 +31,7 @@ namespace WebToolkit.Common
                     catchFunc?.Invoke(ex);
                     Thread.Sleep(Options.Timeout);
                     attempts++;
-                }, finallyFunc, Options.ExceptionTypes.ToArray());
+                }, finallyFunc, catchExceptionTypesArray: Options.ExceptionTypes.ToArray());
 
             return result;
         }
