@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
-using System.Runtime.InteropServices.ComTypes;
 using System.Threading.Tasks;
 using WebToolkit.Common;
 using Xunit;
@@ -30,7 +29,7 @@ namespace WebToolkit.Tests
         public void TResult_Run_returns()
         {
             var sut = Lock.Create<decimal>(100,a => a + 0.02m);
-
+            sut.PropertyChanged += Sut_PropertyChanged;
             var taskList = new List<Task>();
             for (var i = 0; i < 25; i++)
             {
@@ -41,6 +40,11 @@ namespace WebToolkit.Tests
 
             Task.WaitAll(taskList.ToArray());
             Assert.Equal(100.5m, sut.Value);
+        }
+
+        private void Sut_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            Assert.Equal("Value", e.PropertyName);
         }
 
         [Fact]
