@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using WebToolkit.Common.Annotations;
+using JetBrains.Annotations;
 using WebToolkit.Contracts;
 
 namespace WebToolkit.Common
