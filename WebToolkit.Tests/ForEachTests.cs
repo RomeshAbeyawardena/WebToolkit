@@ -1,4 +1,5 @@
-﻿using WebToolkit.Common.Extensions;
+﻿using System.Linq;
+using WebToolkit.Common.Extensions;
 using Xunit;
 
 namespace WebToolkit.Tests
@@ -8,11 +9,13 @@ namespace WebToolkit.Tests
         [Fact]
         public void ForEach_affects_all_elements()
         {
-            var total = 0;
             var items = new[] {1, 4, 6, 8, 12};
-            items.ForEach(item => total += item);
+            var newItems = items.ForEach(item => item * 2).ToArray();
 
-            Assert.Equal(31, total);
+            Assert.Contains(2, newItems);
+            Assert.Contains(8, newItems);
+            Assert.Contains(16, newItems);
+            Assert.Contains(24, newItems);
         }
 
         [Fact]
@@ -20,7 +23,10 @@ namespace WebToolkit.Tests
         {
             var total = 0;
             var items = new[] {1, 4, 6, 8, 12};
-            items.ForEach(item => total += item, item => item < 12);
+            items.ForEach(item =>
+            {
+                total += item;
+            }, item => item < 12);
 
             Assert.Equal(19, total);
         }
