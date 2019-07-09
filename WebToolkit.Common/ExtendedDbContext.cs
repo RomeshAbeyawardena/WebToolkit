@@ -13,6 +13,7 @@ namespace WebToolkit.Common
 {
     public abstract class ExtendedDbContext : DbContext
     {
+        private readonly DbContextExtendedOptions options;
         private readonly IDateTimeProvider _dateTimeProvider;
 
         private void SetMetaData<T>(T entity, DateTimeOffset? createdDate = null, DateTimeOffset? modifiedDate = null)
@@ -26,11 +27,11 @@ namespace WebToolkit.Common
 
         protected bool SetMetaDataOnInsert { get; set; } = true;
         protected bool SetMetaDataOnUpdate { get; set; } = true;
-        protected bool SingulariseTableNames { get; set; } = true;
 
-        protected ExtendedDbContext(DbContextOptions options, IDateTimeProvider dateTimeProvider)
+        protected ExtendedDbContext(DbContextOptions options, DbContextExtendedOptions dbContextExtendedOptions, IDateTimeProvider dateTimeProvider)
             : base(options)
         {
+            options = dbContextExtendedOptions;
             _dateTimeProvider = dateTimeProvider;
         }
         
@@ -65,7 +66,7 @@ namespace WebToolkit.Common
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            if (SingulariseTableNames)
+            if (options.SingulariseTableNames)
                 foreach (var mutableEntityType in modelBuilder.Model.GetEntityTypes())
                 {
                     mutableEntityType.Relational().TableName = mutableEntityType.Relational()
