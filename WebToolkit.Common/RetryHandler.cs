@@ -61,7 +61,7 @@ namespace WebToolkit.Common
             return result;
         }
 
-        public static RetryHandler Create(Action<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
+        public static RetryHandler Create(Options<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
         {
             return new RetryHandler(retryOptionsAction, exceptionTypes);
         }
