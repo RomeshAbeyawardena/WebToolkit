@@ -28,10 +28,11 @@ namespace WebToolkit.Common
         protected bool SetMetaDataOnInsert { get; set; } = true;
         protected bool SetMetaDataOnUpdate { get; set; } = true;
 
-        protected ExtendedDbContext(DbContextOptions options, DbContextExtendedOptions dbContextExtendedOptions, IDateTimeProvider dateTimeProvider)
+        protected ExtendedDbContext(DbContextOptions options, Options<DbContextExtendedOptions> dbContextExtendedOptions, IDateTimeProvider dateTimeProvider)
             : base(options)
         {
-            _options = dbContextExtendedOptions;
+            _options = new DbContextExtendedOptions();
+            dbContextExtendedOptions.SetOptions(_options);
             _dateTimeProvider = dateTimeProvider;
         }
         
