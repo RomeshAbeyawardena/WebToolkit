@@ -17,7 +17,7 @@ namespace WebToolkit.Tests
             var sut = RetryHandler.Create(Options<RetryHandleOptions>.Create(options =>
             {
                 options.MaximumAttempts = times;
-                options.Timeout = 1000;
+                options.Timeout = 500;
             }), typeof(TimeoutException));
 
             sut.Handle<string>(() => throw new TimeoutException(), ex => { retryAttempt++; });
@@ -35,7 +35,7 @@ namespace WebToolkit.Tests
             var sut = RetryHandler.Create(Options<RetryHandleOptions>.Create(options =>
             {
                 options.MaximumAttempts = times;
-                options.Timeout = 1000;
+                options.Timeout = 500;
             }) ,typeof(TimeoutException));
 
             Assert.Equal(passValue,
