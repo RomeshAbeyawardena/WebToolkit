@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
+using WebToolkit.Common.Extensions;
 using WebToolkit.Contracts;
 
 namespace WebToolkit.Common
@@ -22,7 +23,7 @@ namespace WebToolkit.Common
         {
             foreach (var a in assemblies)
             {
-                foreach (var t in a.GetTypes().Where(type => type.IsClass && type.GetInterface("IServiceRegistration") == typeof(IServiceRegistration)))
+                foreach (var t in a.GetTypes().Where(type => type.ClassHasInterface<IServiceRegistration>()))
                 {
                     var serviceRegistration = Activator.CreateInstance(t) as IServiceRegistration;
                     RegisterServices((services) => serviceRegistration?.RegisterServices(services));

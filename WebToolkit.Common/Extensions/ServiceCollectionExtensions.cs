@@ -44,8 +44,8 @@ namespace WebToolkit.Common.Extensions
         {
             foreach (var a in getAssemblies(Activator.CreateInstance<TServiceBroker>()))
             {
-                foreach (var t in a.GetTypes().Where(type => type.IsClass 
-                                                             && type.GetInterface(nameof(IServiceRegistration)) == typeof(TServiceRegistration)))
+                foreach (var t in a.GetTypes().Where(type => type
+                    .ClassHasInterface<IServiceRegistration>(typeof(TServiceRegistration))))
                 {
                     var serviceRegistration = Activator.CreateInstance(t) as TServiceRegistration;
                     registerServices(serviceRegistration, services);
