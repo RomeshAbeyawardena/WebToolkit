@@ -54,7 +54,7 @@ namespace WebToolkit.Common.Extensions
             var valueType = value.GetType();
 
             return valueType.GetProperties()
-                .Where(a => a.GetCustomAttribute(typeof(KeyAttribute)) != null)
+                .Where(a => a.TryGetCustomAttribute<KeyAttribute>(out var attr))
                 .Select(pi => pi.GetValue(value)).ToArray();
         }
 

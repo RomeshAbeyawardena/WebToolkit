@@ -41,12 +41,11 @@ namespace WebToolkit.Common
         {
             while (IsRunning)
             {
-                if (_asyncCallback != null)
-                {
-                    await _asyncCallback?.Invoke(this);
-                    Elapsed?.Invoke(this, EventArgs.Empty);
-                    Thread.Sleep(Interval);
-                }
+                if (_asyncCallback == null) continue;
+
+                await _asyncCallback?.Invoke(this);
+                Elapsed?.Invoke(this, EventArgs.Empty);
+                Thread.Sleep(Interval);
             }
         }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 
 namespace WebToolkit.Common.Extensions
 {
@@ -19,6 +20,23 @@ namespace WebToolkit.Common.Extensions
                 concreteType = typeof(TInterface);
 
             return type.IsClass && type.GetInterface(typeof(TInterface).Name) == concreteType;
+        }
+
+        public static bool TryGetCustomAttribute<TAttribute>(this PropertyInfo type, out TAttribute customAttribute)
+            where TAttribute : Attribute
+        {
+            customAttribute = (TAttribute)type.GetCustomAttribute(typeof(TAttribute));
+            
+            return customAttribute != null;
+        }
+
+        public static T GetCustomAttributeValue<TAttribute, T>(this PropertyInfo type, Func<TAttribute, T> getValue)
+            where TAttribute : Attribute
+        {
+            return 
+                type.TryGetCustomAttribute<TAttribute>(out var customAttribute) 
+                    ? getValue(customAttribute) 
+                    : default;
         }
     }
 }
