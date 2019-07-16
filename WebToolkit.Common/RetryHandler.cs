@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -7,10 +8,10 @@ namespace WebToolkit.Common
 {
     public class RetryHandler
     {
-        private RetryHandler(Action<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
+        private RetryHandler(Options<RetryHandleOptions> retryOptions, params Type[] exceptionTypes)
         {
             Options = new RetryHandleOptions {ExceptionTypes = exceptionTypes};
-            retryOptionsAction(Options);
+            retryOptions.SetOptions(Options);
         }
 
         public RetryHandleOptions Options { get; }
@@ -60,7 +61,7 @@ namespace WebToolkit.Common
             return result;
         }
 
-        public static RetryHandler Create(Action<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
+        public static RetryHandler Create(Options<RetryHandleOptions> retryOptionsAction, params Type[] exceptionTypes)
         {
             return new RetryHandler(retryOptionsAction, exceptionTypes);
         }

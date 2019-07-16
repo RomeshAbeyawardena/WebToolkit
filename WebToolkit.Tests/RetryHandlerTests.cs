@@ -14,11 +14,11 @@ namespace WebToolkit.Tests
         public void RetryHandle_Retries_x_times(int times)
         {
             var retryAttempt = 0;
-            var sut = RetryHandler.Create(options =>
+            var sut = RetryHandler.Create(Options<RetryHandleOptions>.Create(options =>
             {
                 options.MaximumAttempts = times;
-                options.Timeout = 1000;
-            } ,typeof(TimeoutException));
+                options.Timeout = 500;
+            }), typeof(TimeoutException));
 
             sut.Handle<string>(() => throw new TimeoutException(), ex => { retryAttempt++; });
             Assert.Equal(times, retryAttempt);
@@ -32,11 +32,11 @@ namespace WebToolkit.Tests
         public void RetryHandle_Retries_x_times_then_passes_on_last_attempt(int times, string passValue)
         {
             var retryAttempt = 0;
-            var sut = RetryHandler.Create(options =>
+            var sut = RetryHandler.Create(Options<RetryHandleOptions>.Create(options =>
             {
                 options.MaximumAttempts = times;
-                options.Timeout = 1000;
-            } ,typeof(TimeoutException));
+                options.Timeout = 500;
+            }) ,typeof(TimeoutException));
 
             Assert.Equal(passValue,
             sut.Handle<string>(() =>
