@@ -7,17 +7,17 @@ namespace WebToolkit.Tests
     public class TypeExtensionTests
     {
         [Fact]
-        public void ClassHasInterface_returns_true()
+        public void ClassInherits_returns_true()
         {
-            Assert.True(typeof(TestInheritedClass).ClassHasInterface<ITestInterface>());
-            Assert.True(typeof(TestInheritedClass).ClassHasInterface<ITestInterface>(typeof(ITestInterface)));
+            Assert.True(typeof(TestInheritedClass).ClassInherits<ITestInterface>());
+            Assert.True(typeof(TestInheritedClass).ClassInherits<ITestInterface>(typeof(ITestInterface)));
         }
 
         [Fact]
-        public void ClassHasInterface_returns_false()
+        public void ClassInherits_returns_false()
         {
-            Assert.False(typeof(TestNonInheritedClass).ClassHasInterface<ITestInterface>());
-            Assert.False(typeof(TestNonInheritedClass).ClassHasInterface<ITestInterface>(typeof(ITestInterface)));
+            Assert.False(typeof(TestNonInheritedClass).ClassInherits<ITestInterface>());
+            Assert.False(typeof(TestNonInheritedClass).ClassInherits<ITestInterface>(typeof(ITestInterface)));
         }
 
         [Fact]

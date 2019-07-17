@@ -6,7 +6,7 @@ namespace WebToolkit.Common.Extensions
 {
     public static class TypeExtensions
     {
-        public static bool ClassHasInterface<TInterface>(this Type type, Type concreteType = null)
+        public static bool ClassInherits<TInterface>(this Type type, Type concreteType = null)
         {
             if(!typeof(TInterface).IsInterface)
                 throw new ArgumentException($"{nameof(TInterface)} must be an interface", nameof(TInterface));
