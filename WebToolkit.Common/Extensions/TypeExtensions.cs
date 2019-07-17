@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
 
 namespace WebToolkit.Common.Extensions
@@ -26,17 +27,27 @@ namespace WebToolkit.Common.Extensions
             where TAttribute : Attribute
         {
             customAttribute = (TAttribute)type.GetCustomAttribute(typeof(TAttribute));
-            
+
             return customAttribute != null;
         }
 
-        public static T GetCustomAttributeValue<TAttribute, T>(this PropertyInfo type, Func<TAttribute, T> getValue)
+        public static TSelector GetCustomAttributeValue<TAttribute, TSelector>(this PropertyInfo type, Func<TAttribute, TSelector> getValue = null)
             where TAttribute : Attribute
         {
+            if (getValue == null)
+                throw new ArgumentNullException(nameof(getValue));
+
             return 
                 type.TryGetCustomAttribute<TAttribute>(out var customAttribute) 
                     ? getValue(customAttribute) 
                     : default;
+        }
+
+        public static PropertyInfo GetPropertyByName(this Type type, string propertyName)
+        {
+            return type
+                .GetProperties()
+                .FirstOrDefault(property => property.Name == propertyName);
         }
     }
 }
