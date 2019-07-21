@@ -15,6 +15,13 @@ namespace WebToolkit.Common.Providers
             return new DefaultValuesProvider<TModel>(defaultValues);
         }
 
+        void IDefaultValueProvider.Assign(object model)
+        {
+            Assign((TModel)model);
+        }
+
+        Action<object> IDefaultValueProvider.Defaults => throw new NotSupportedException();
+
         public Action<TModel> Defaults { get; }
         public void Assign(TModel model)
         {
