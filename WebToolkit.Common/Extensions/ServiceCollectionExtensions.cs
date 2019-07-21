@@ -65,6 +65,7 @@ namespace WebToolkit.Common.Extensions
                     .CaseWhen(Contracts.Providers.Encoding.Utf7, Encoding.UTF7)
                     .CaseWhen(Contracts.Providers.Encoding.Utf8, Encoding.UTF8)
                     .CaseWhen(Contracts.Providers.Encoding.Unicode, Encoding.Unicode))
+                .AddSingleton<IDefaultValuesFactory, DefaultValuesFactory>()
                 .AddSingleton<IEncodingProvider, EncodingProvider>()
                 .AddSingleton<ISystemClock, SystemClock>()
                 .AddSingleton<IDateTimeProvider, DateTimeProvider>()
