@@ -13,7 +13,7 @@ namespace WebToolkit.Common.Extensions
             if(valueCollection == null)
                 valueCollection = new List<T>();
 
-            (valueCollection as List<T>)?.AddRange(value);
+            value.ForEach(item => valueCollection.Add(item));
 
             return valueCollection;
         }
