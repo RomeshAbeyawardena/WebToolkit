@@ -17,5 +17,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebToolkit.Contracts\WebToolkit.Contracts.csproj" />
+    <ProjectReference Include="..\WebToolkit.Shared\WebToolkit.Shared.csproj" />
   </ItemGroup>
  </Project>  
