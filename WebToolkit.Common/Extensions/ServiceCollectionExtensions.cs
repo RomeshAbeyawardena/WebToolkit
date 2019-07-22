@@ -58,6 +58,7 @@ namespace WebToolkit.Common.Extensions
         public static IServiceCollection RegisterProviders(this IServiceCollection service)
         {
             return service
+                .AddSingleton<IFileProvider, FileProvider>()
                 .AddSingleton(Switch<Contracts.Providers.Encoding, Encoding>.Create(defaultValueExpression: () =>  default(Encoding))
                     .CaseWhen(Contracts.Providers.Encoding.Ascii, Encoding.ASCII)
                     .CaseWhen(Contracts.Providers.Encoding.BigEndianUnicode, Encoding.BigEndianUnicode)
