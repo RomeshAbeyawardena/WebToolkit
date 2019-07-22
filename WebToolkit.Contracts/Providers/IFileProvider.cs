@@ -12,6 +12,6 @@ namespace WebToolkit.Contracts.Providers
         FileInfo GetFileInfo(string fileName);
         DirectoryInfo GetDirectoryInfo(string directoryPath);
         Task<IEnumerable<byte>> GetFileContents(string filename, FileMode fileMode);
-        Task<EnumeratedDirectories> EnumerateDirectories(string directoryPath, bool recursive);
+        Task<EnumeratedDirectories> EnumerateDirectories(string directoryPath, bool recursive, bool getFiles);
     }
 }

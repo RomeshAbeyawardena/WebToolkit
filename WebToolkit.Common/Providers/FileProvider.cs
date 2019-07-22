@@ -48,9 +48,10 @@ namespace WebToolkit.Common.Providers
         }
 
 
-        public async Task<EnumeratedDirectories> EnumerateDirectories(string directoryPath, bool recursive)
+        public async Task<EnumeratedDirectories> EnumerateDirectories(string directoryPath, bool recursive, bool getFiles)
         {
             var directoryList = new List<DirectoryInfo>();
+            var fileList = new List<FileInfo>();
             var badDirectoryList = new List<BadDirectoryInfo>();
 
             var currentDirectoryInfo = GetDirectoryInfo(directoryPath);
@@ -64,12 +65,14 @@ namespace WebToolkit.Common.Providers
                     currentDirectory = directoryInfo.Name;
                     directoryList.Add(directoryInfo);
 
+                    fileList.AddRange(directoryInfo.GetFiles());
+
                     if (!recursive) continue;
 
-                    var enumeratedSubDirectories = await EnumerateDirectories(directoryInfo.FullName, true);
+                    var enumeratedSubDirectories = await EnumerateDirectories(directoryInfo.FullName, true, getFiles);
                     directoryList.AddRange(enumeratedSubDirectories.Directories);
                     badDirectoryList.AddRange(enumeratedSubDirectories.BadDirectories);
-
+                    fileList.AddRange(enumeratedSubDirectories.Files);
                 }
             }
             catch (IOException exception)
@@ -83,6 +86,7 @@ namespace WebToolkit.Common.Providers
 
             return new EnumeratedDirectories
             {
+                Files = fileList.ToArray(),
                 BadDirectories = badDirectoryList.ToArray(),
                 Directories = directoryList.ToArray()
             };
