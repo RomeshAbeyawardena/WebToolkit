@@ -5,9 +5,11 @@ using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Internal;
+using WebToolkit.Common.Factories;
 using WebToolkit.Common.Providers;
 using WebToolkit.Contracts;
 using WebToolkit.Contracts.Data;
+using WebToolkit.Contracts.Factories;
 using WebToolkit.Contracts.Providers;
 using Encoding = System.Text.Encoding;
 
@@ -83,7 +85,9 @@ namespace WebToolkit.Common.Extensions
                 .AddSingleton<IMapperProvider, MapperProvider>()
                 .AddSingleton<ICryptographyProvider, CryptographyProvider>()
                 .AddSingleton<ICacheProvider, CacheProvider>()
-                .AddSingleton<IAsyncLockDictionary, DefaultAsyncLockDictionary>(); 
+                .AddSingleton<IAsyncLockDictionary, DefaultAsyncLockDictionary>()
+                .AddSingleton<IDataPoolFactory, DataPoolFactory>()
+                .AddSingleton<IRelationalMapperFactory, RelationalMapperFactory>();
         }
 
         public static IServiceCollection AddDefaultValueProvider<TModel>(this IServiceCollection services, Action<TModel> defaults)
