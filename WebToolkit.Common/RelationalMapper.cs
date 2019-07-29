@@ -14,13 +14,11 @@ namespace WebToolkit.Common
         
         private readonly ILogger<RelationalMapper<TEntity, TKey, TMap>> _logger;
         private readonly ICacheProvider _cacheProvider;
-        private readonly IDataPool<TEntity, TKey> _dataPool;
 
-        public RelationalMapper(ILogger<RelationalMapper<TEntity, TKey, TMap>> logger, ICacheProvider cacheProvider, IDataPool<TEntity, TKey> dataPool)
+        public RelationalMapper(ILogger<RelationalMapper<TEntity, TKey, TMap>> logger, ICacheProvider cacheProvider)
         {
             _logger = logger;
             _cacheProvider = cacheProvider;
-            _dataPool = dataPool;
             _logger.LogInformation($"Initializing {typeof(IRelationalMapper<TEntity, TKey, TMap>).FullName}");
         }
 
