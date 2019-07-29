@@ -43,7 +43,7 @@ namespace WebToolkit.Common
 
             _logger.LogInformation("Cached new mapping for {0}. Value is {1}", mappedValue, key);
 
-            return keyValuePair;
+            return addedKeyValuePair.Value;
         }
 
         public async Task<KeyValuePair<TMap, TKey>> GetOrCreateAsync(TMap mappedValue, Func<TMap, Task<TKey>> getKeyFunc)
@@ -67,7 +67,7 @@ namespace WebToolkit.Common
 
             _logger.LogInformation("Cached new mapping for {0}. Value is {1}", mappedValue, key);
 
-            return keyValuePair;
+            return addedKeyValuePair.Value;
         }
 
         internal bool TryGetKeyValuePair(IDictionary<TMap, TKey> relationalMappings, TMap mappedValue, out KeyValuePair<TMap, TKey> keyValuePair)
