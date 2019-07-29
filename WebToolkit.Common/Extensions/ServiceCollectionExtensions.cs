@@ -71,7 +71,8 @@ namespace WebToolkit.Common.Extensions
         {
             return service
                 .AddSingleton<IFileProvider, FileProvider>()
-                .AddSingleton(Switch<Contracts.Providers.Encoding, Encoding>.Create(defaultValueExpression: () =>  default(Encoding))
+                .AddSingleton(Switch<Contracts.Providers.Encoding, Encoding>
+                    .Create(defaultValueExpression: () => default(Encoding))
                     .CaseWhen(Contracts.Providers.Encoding.Ascii, Encoding.ASCII)
                     .CaseWhen(Contracts.Providers.Encoding.BigEndianUnicode, Encoding.BigEndianUnicode)
                     .CaseWhen(Contracts.Providers.Encoding.Utf32, Encoding.UTF32)
@@ -79,15 +80,15 @@ namespace WebToolkit.Common.Extensions
                     .CaseWhen(Contracts.Providers.Encoding.Utf8, Encoding.UTF8)
                     .CaseWhen(Contracts.Providers.Encoding.Unicode, Encoding.Unicode))
                 .AddSingleton<IDefaultValuesFactory, DefaultValuesFactory>()
+                .AddSingleton<IDataPoolFactory, DataPoolFactory>()
+                .AddSingleton<IRelationalMapperFactory, RelationalMapperFactory>()
                 .AddSingleton<IEncodingProvider, EncodingProvider>()
                 .AddSingleton<ISystemClock, SystemClock>()
                 .AddSingleton<IDateTimeProvider, DateTimeProvider>()
                 .AddSingleton<IMapperProvider, MapperProvider>()
                 .AddSingleton<ICryptographyProvider, CryptographyProvider>()
                 .AddSingleton<ICacheProvider, CacheProvider>()
-                .AddSingleton<IAsyncLockDictionary, DefaultAsyncLockDictionary>()
-                .AddSingleton<IDataPoolFactory, DataPoolFactory>()
-                .AddSingleton<IRelationalMapperFactory, RelationalMapperFactory>();
+                .AddSingleton<IAsyncLockDictionary, DefaultAsyncLockDictionary>();
         }
 
         public static IServiceCollection AddDefaultValueProvider<TModel>(this IServiceCollection services, Action<TModel> defaults)
