@@ -19,58 +19,58 @@ namespace WebToolkit.Common
         {
             _logger = logger;
             _cacheProvider = cacheProvider;
-            _logger.LogInformation($"Initializing {typeof(IRelationalMapper<TEntity, TKey, TMap>).FullName}");
+            _logger.LogInformation($"Initialising {typeof(IRelationalMapper<TEntity, TKey, TMap>).FullName}");
         }
 
         public KeyValuePair<TMap, TKey> GetOrCreate(TMap mappedValue, Func<TMap, TKey> getKeyFunc)
         {
             var relationalMappings = RelationalMappings ?? new Dictionary<TMap, TKey>();
 
-            if (TryGetKeyValuePair(relationalMappings, mappedValue, out var keyValuePair))
+            if (TryGetKeyValuePair(relationalMappings, mappedValue, out var keyValuePair) && keyValuePair.HasValue)
             {
                 _logger.LogInformation("Found mapping for {0}. Value is {1}", mappedValue, keyValuePair.Value);
-                return keyValuePair;
+                return keyValuePair.Value;
             }
 
             var key = getKeyFunc(mappedValue);
 
-            var addedKeyValuePair = AddMapping(relationalMappings, mappedValue, key);
+            keyValuePair = AddMapping(relationalMappings, mappedValue, key);
 
-            if (!addedKeyValuePair.HasValue)
+            if (!keyValuePair.HasValue)
                 return default;
 
             RelationalMappings = relationalMappings;
 
             _logger.LogInformation("Cached new mapping for {0}. Value is {1}", mappedValue, key);
 
-            return keyValuePair;
+            return keyValuePair.Value;
         }
 
         public async Task<KeyValuePair<TMap, TKey>> GetOrCreateAsync(TMap mappedValue, Func<TMap, Task<TKey>> getKeyFunc)
         {
             var relationalMappings = RelationalMappings ?? new Dictionary<TMap, TKey>();
 
-            if (TryGetKeyValuePair(relationalMappings, mappedValue, out var keyValuePair))
+            if (TryGetKeyValuePair(relationalMappings, mappedValue, out var keyValuePair) && keyValuePair.HasValue)
             {
                 _logger.LogInformation("Found mapping for {0}. Value is {1}", mappedValue, keyValuePair.Value);
-                return keyValuePair;
+                return keyValuePair.Value;
             }
 
             var key = await getKeyFunc(mappedValue);
 
-            var addedKeyValuePair = AddMapping(relationalMappings, mappedValue, key);
+            keyValuePair = AddMapping(relationalMappings, mappedValue, key);
 
-            if (!addedKeyValuePair.HasValue)
+            if (!keyValuePair.HasValue)
                 return default;
 
             RelationalMappings = relationalMappings;
 
             _logger.LogInformation("Cached new mapping for {0}. Value is {1}", mappedValue, key);
 
-            return keyValuePair;
+            return keyValuePair.Value;
         }
 
-        internal bool TryGetKeyValuePair(IDictionary<TMap, TKey> relationalMappings, TMap mappedValue, out KeyValuePair<TMap, TKey> keyValuePair)
+        internal bool TryGetKeyValuePair(IDictionary<TMap, TKey> relationalMappings, TMap mappedValue, out KeyValuePair<TMap, TKey>? keyValuePair)
         {
             keyValuePair = new KeyValuePair<TMap, TKey>();
 
