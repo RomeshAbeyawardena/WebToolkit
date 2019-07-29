@@ -26,9 +26,14 @@ namespace WebToolkit.Common.Factories
 
             var value = dataPool.Retrieve(key);
             
-            return value == null 
-                ? dataPool.Add(key, valueFunc(key))
-                : value;
+            if (value != null)
+                return value;
+
+            value = valueFunc(key);
+
+            dataPool.Add(key, value); 
+            
+            return value;
         }
 
         public async Task<TEntity> GetValueAsync<TEntity, TKey>(TKey key, Func<TKey, Task<TEntity>> valueFunc)
@@ -37,9 +42,14 @@ namespace WebToolkit.Common.Factories
 
             var value = dataPool.Retrieve(key);
             
-            return value == null 
-                ? dataPool.Add(key, await valueFunc(key))
-                : value;
+            if (value != null)
+                return value;
+
+            value = await valueFunc(key);
+
+            dataPool.Add(key, value); 
+            
+            return value;
         }
     }
 }
