@@ -33,7 +33,6 @@ namespace WebToolkit.Common
             
             DataPoolDictionary = dataPoolDictionary;
             return value;
-                
         }
 
         public TModel Retrieve(TKey key)

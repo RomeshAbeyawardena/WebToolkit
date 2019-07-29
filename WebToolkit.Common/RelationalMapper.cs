@@ -38,7 +38,7 @@ namespace WebToolkit.Common
 
             var addedKeyValuePair = AddMapping(relationalMappings, mappedValue, key);
 
-            if (addedKeyValuePair.HasValue)
+            if (!addedKeyValuePair.HasValue)
                 return default;
 
             RelationalMappings = relationalMappings;
