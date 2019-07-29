@@ -44,7 +44,7 @@ namespace WebToolkit.Common.Factories
             
             if (value != null)
                 return value;
-
+            
             value = await valueFunc(key);
 
             dataPool.Add(key, value); 
