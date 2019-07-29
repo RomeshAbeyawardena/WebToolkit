@@ -6,7 +6,7 @@ namespace WebToolkit.Contracts.Factories
 {
     public interface IRelationalMapperFactory
     {
-        KeyValuePair<TMap, TKey> GetOrCreate<TEntity, TMap, TKey>(TMap mappedValue, Func<TMap, TKey> getKeyFunc);
-        Task<KeyValuePair<TMap, TKey>> GetOrCreateAsync<TEntity, TMap, TKey>(TMap mappedValue, Func<TMap, Task<TKey>> getKeyFunc);
+        KeyValuePair<TMap, TKey> GetOrCreate<TEntity, TKey, TMap>(TMap mappedValue, Func<TMap, TKey> getKeyFunc);
+        Task<KeyValuePair<TMap, TKey>> GetOrCreateAsync<TEntity, TKey, TMap>(TMap mappedValue, Func<TMap, Task<TKey>> getKeyFunc);
     }
 }
