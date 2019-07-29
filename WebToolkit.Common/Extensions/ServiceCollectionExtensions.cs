@@ -19,12 +19,12 @@ namespace WebToolkit.Common.Extensions
     {
         public static IServiceCollection RegisterDataPool<TEntity, TKey>(this IServiceCollection services)
         {
-            return services.AddSingleton(typeof(DataPool<TEntity, TKey>));
+            return services.AddSingleton<IDataPool<TEntity, TKey>, DataPool<TEntity, TKey>>();
         }
 
         public static IServiceCollection RegisterRelationalMapper<TEntity, TKey, TMap>(this IServiceCollection services)
         {
-            return services.AddSingleton(typeof(RelationalMapper<TEntity, TKey, TMap>));
+            return services.AddSingleton<IRelationalMapper<TEntity, TKey, TMap>, RelationalMapper<TEntity, TKey, TMap>>();
         }
 
         public static IServiceCollection RegisterRepositories<TDbContext>(this IServiceCollection services, params Type[] entities) where TDbContext : DbContext
