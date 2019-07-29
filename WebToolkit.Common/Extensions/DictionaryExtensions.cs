@@ -16,6 +16,16 @@ namespace WebToolkit.Common.Extensions
             }
         }
 
+        public static bool TryAdd<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value)
+        {
+            if(dictionary.ContainsKey(key))
+                return false;
+
+            dictionary.Add(key, value);
+
+            return true;
+        }
+
         public static IEnumerable<KeyValuePair<TKey, TValue>> ToKeyValuePairs<TKey, TValue>(this IDictionary<TKey, TValue> dictionary)
         {
             return dictionary.Select(a => new KeyValuePair<TKey, TValue>(a.Key, a.Value)).ToArray();
