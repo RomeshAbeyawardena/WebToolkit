@@ -28,6 +28,7 @@ namespace WebToolkit.Common
 
             if (dataPoolDictionary.ContainsKey(key))
                 dataPoolDictionary.Remove(key);
+            
             if (!dataPoolDictionary.TryAdd(key, value))
                 return default;
             
