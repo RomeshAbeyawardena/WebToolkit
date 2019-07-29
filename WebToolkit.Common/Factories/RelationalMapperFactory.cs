@@ -11,7 +11,7 @@ namespace WebToolkit.Common.Factories
     {
         private readonly IServiceProvider _serviceProvider;
 
-        private IRelationalMapper<TEntity, TKey, TMap> GetRelationalMapper<TEntity, TMap, TKey>()
+        private IRelationalMapper<TEntity, TKey, TMap> GetRelationalMapper<TEntity, TKey, TMap>()
         {
             var relationalMapperType = typeof(IRelationalMapper<TEntity, TKey, TMap>);
             return (IRelationalMapper<TEntity, TKey, TMap>)_serviceProvider
@@ -23,17 +23,17 @@ namespace WebToolkit.Common.Factories
             _serviceProvider = serviceProvider;
         }
 
-        public KeyValuePair<TMap, TKey> GetOrCreate<TEntity, TMap, TKey>(TMap mappedValue, Func<TMap, TKey> getKeyFunc)
+        public KeyValuePair<TMap, TKey> GetOrCreate<TEntity, TKey, TMap>(TMap mappedValue, Func<TMap, TKey> getKeyFunc)
         {
-            var relationshipMapper = GetRelationalMapper<TEntity, TMap, TKey>();
+            var relationshipMapper = GetRelationalMapper<TEntity, TKey, TMap>();
 
             return relationshipMapper
                 .GetOrCreate(mappedValue, getKeyFunc);
         }
 
-        public Task<KeyValuePair<TMap, TKey>> GetOrCreateAsync<TEntity, TMap, TKey>(TMap mappedValue, Func<TMap, Task<TKey>> getKeyFunc)
+        public Task<KeyValuePair<TMap, TKey>> GetOrCreateAsync<TEntity, TKey, TMap>(TMap mappedValue, Func<TMap, Task<TKey>> getKeyFunc)
         {
-            var relationshipMapper = GetRelationalMapper<TEntity, TMap, TKey>();
+            var relationshipMapper = GetRelationalMapper<TEntity, TKey, TMap>();
 
             return relationshipMapper
                 .GetOrCreateAsync(mappedValue, getKeyFunc);
