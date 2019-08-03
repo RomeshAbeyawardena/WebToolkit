@@ -28,11 +28,12 @@ namespace WebToolkit.Common
                 : skippedQuery.Take(itemsPerPage);
         }
 
-        private TPagedResult CreatePagedResult<TPagedResult>(int currentPageIndex, int totalItems, IEnumerable<TModel> pagedResults)
+        private TPagedResult CreatePagedResult<TPagedResult>(int currentPageIndex, int itemsPerPage, int totalItems, IEnumerable<TModel> pagedResults)
             where TPagedResult : IPagedResult<TModel>
         {
             var pagedResult = Activator.CreateInstance<TPagedResult>();
             pagedResult.CurrentPageIndex = currentPageIndex;
+            pagedResult.TotalPages = totalItems == 0 ? 0 : (int)Math.Round( (decimal)totalItems / itemsPerPage );
             pagedResult.TotalItems = totalItems;
             pagedResult.Results = pagedResults;
 
@@ -49,16 +50,16 @@ namespace WebToolkit.Common
             where TPagedResult : IPagedResult<TModel>
         {
             var query = _modelRepository.Query(filterExpression);
-
+            var totalItems = await query.CountAsync();
             if (orderBy == OrderBy.None)
-                return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, await query.CountAsync(), 
+                return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, pagedRequest.ItemsPerPage, totalItems, 
                     await (await GetPagedResult(query, pagedRequest.PageIndex, pagedRequest.ItemsPerPage))
                     .ToArrayAsync());
 
             if(orderByExpression == null)
                 throw new ArgumentNullException(nameof(orderByExpression));
 
-            return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, await query.CountAsync(), 
+            return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, pagedRequest.ItemsPerPage, totalItems, 
                 await (await GetPagedResult(orderBy == OrderBy.Ascending
                 ? query.OrderBy(orderByExpression)
                 : query.OrderByDescending(orderByExpression), pagedRequest.PageIndex, pagedRequest.ItemsPerPage))
