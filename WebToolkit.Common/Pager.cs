@@ -33,7 +33,7 @@ namespace WebToolkit.Common
         {
             var pagedResult = Activator.CreateInstance<TPagedResult>();
             pagedResult.CurrentPageIndex = currentPageIndex;
-            pagedResult.TotalPages = totalItems == 0 ? 0 : (int)Math.Round( (decimal)totalItems / itemsPerPage );
+            pagedResult.TotalPages = totalItems == 0 ? 0 : (int)Math.Ceiling( (decimal)totalItems / itemsPerPage );
             pagedResult.TotalItems = totalItems;
             pagedResult.Results = pagedResults;
 
