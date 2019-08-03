@@ -16,7 +16,7 @@ namespace WebToolkit.Common
 
         private async Task<IQueryable<TModel>> GetPagedResult(IQueryable<TModel> query, int pageIndex, int itemsPerPage)
         {
-            var skippedNumber = pageIndex == 0 ? 0 : (itemsPerPage * pageIndex) - 1;
+            var skippedNumber = itemsPerPage * pageIndex;
             var totalInQuery = await query.CountAsync();
             if (skippedNumber > totalInQuery)
                 return query;
