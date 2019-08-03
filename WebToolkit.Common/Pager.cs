@@ -28,32 +28,47 @@ namespace WebToolkit.Common
                 : skippedQuery.Take(itemsPerPage);
         }
 
+        private TPagedResult CreatePagedResult<TPagedResult>(int currentPageIndex, int totalItems, IEnumerable<TModel> pagedResults)
+            where TPagedResult : IPagedResult<TModel>
+        {
+            var pagedResult = Activator.CreateInstance<TPagedResult>();
+            pagedResult.CurrentPageIndex = currentPageIndex;
+            pagedResult.TotalItems = totalItems;
+            pagedResult.Results = pagedResults;
+
+            return pagedResult;
+        }
+
         public Pager(IRepository<TModel> modelRepository)
         {
             _modelRepository = modelRepository;
         }
 
-        public async Task<IEnumerable<TModel>> GetPage<TKey>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null,
-            OrderBy orderBy = OrderBy.None, Expression<Func<TModel, TKey>> orderByExpression = null)
+        public async Task<TPagedResult> GetPage<TPagedResult, TKey>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null,
+            OrderBy orderBy = OrderBy.None, Expression<Func<TModel, TKey>> orderByExpression = null) 
+            where TPagedResult : IPagedResult<TModel>
         {
             var query = _modelRepository.Query(filterExpression);
 
             if (orderBy == OrderBy.None)
-                return await (await GetPagedResult(query, pagedRequest.PageIndex, pagedRequest.ItemsPerPage))
-                    .ToArrayAsync();
+                return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, await query.CountAsync(), 
+                    await (await GetPagedResult(query, pagedRequest.PageIndex, pagedRequest.ItemsPerPage))
+                    .ToArrayAsync());
 
             if(orderByExpression == null)
                 throw new ArgumentNullException(nameof(orderByExpression));
 
-            return await (await GetPagedResult(orderBy == OrderBy.Ascending
+            return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, await query.CountAsync(), 
+                await (await GetPagedResult(orderBy == OrderBy.Ascending
                 ? query.OrderBy(orderByExpression)
                 : query.OrderByDescending(orderByExpression), pagedRequest.PageIndex, pagedRequest.ItemsPerPage))
-                .ToArrayAsync();
+                .ToArrayAsync());
         }
 
-        public Task<IEnumerable<TModel>> GetPage(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null)
+        public Task<TPagedResult> GetPage<TPagedResult>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null)
+            where TPagedResult : IPagedResult<TModel>
         {
-            return GetPage<object>(pagedRequest, filterExpression);
+            return GetPage<TPagedResult, object>(pagedRequest, filterExpression);
         }
     }
 }
