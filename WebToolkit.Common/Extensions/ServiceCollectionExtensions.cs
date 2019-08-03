@@ -17,6 +17,24 @@ namespace WebToolkit.Common.Extensions
 {
     public static class ServiceCollectionExtensions
     {
+        public static IServiceCollection RegisterPager<TModel>(this IServiceCollection services) where TModel : class
+        {
+            return services.RegisterPagers(typeof(TModel));
+        }
+
+        public static IServiceCollection RegisterPagers(this IServiceCollection services, params Type[] types)
+        {
+            var serviceType = typeof(IPager<>);
+            var implementationType = typeof(Pager<>);
+
+            foreach (var type in types)
+            {
+                services.AddScoped(serviceType.MakeGenericType(type), implementationType.MakeGenericType(type));
+            }
+
+            return services;
+        }
+
         public static IServiceCollection RegisterDataPool<TEntity, TKey>(this IServiceCollection services)
         {
             return services.AddSingleton<IDataPool<TEntity, TKey>, DataPool<TEntity, TKey>>();
