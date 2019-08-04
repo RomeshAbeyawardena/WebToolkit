@@ -40,36 +40,41 @@ namespace WebToolkit.Common
             return pagedResult;
         }
 
+        private PagerOptions<TModel, TKey> GetPagerOptions<TKey>(Action<PagerOptions<TModel, TKey>> pagerOptionsActions)
+        {
+            var pagerOptions = new PagerOptions<TModel, TKey>();
+            pagerOptionsActions(pagerOptions);
+
+            return pagerOptions;
+        }
+
         public Pager(IRepository<TModel> modelRepository)
         {
             _modelRepository = modelRepository;
         }
 
-        public async Task<TPagedResult> GetPage<TPagedResult, TKey>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null,
-            OrderBy orderBy = OrderBy.None, Expression<Func<TModel, TKey>> orderByExpression = null) 
+        public async Task<TPagedResult> GetPage<TPagedResult, TKey>(IPagedRequest pagedRequest, Action<PagerOptions<TModel, TKey>> pagerOptions) 
             where TPagedResult : IPagedResult<TModel>
         {
-            var query = _modelRepository.Query(filterExpression);
-            var totalItems = await query.CountAsync();
-            if (orderBy == OrderBy.None)
-                return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, pagedRequest.ItemsPerPage, totalItems, 
-                    await (await GetPagedResult(query, pagedRequest.PageIndex, pagedRequest.ItemsPerPage))
-                    .ToArrayAsync());
+            var options = GetPagerOptions(pagerOptions);
 
-            if(orderByExpression == null)
-                throw new ArgumentNullException(nameof(orderByExpression));
+            var query = _modelRepository.Query(options.FilterExpression);
+            var totalItems = await query.CountAsync();
+            
+            if(options.OrderByExpression == null)
+                throw new ArgumentNullException(nameof(options.OrderByExpression));
 
             return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, pagedRequest.ItemsPerPage, totalItems, 
-                await (await GetPagedResult(orderBy == OrderBy.Ascending
-                ? query.OrderBy(orderByExpression)
-                : query.OrderByDescending(orderByExpression), pagedRequest.PageIndex, pagedRequest.ItemsPerPage))
+                await (await GetPagedResult(options.OrderBy == OrderBy.Ascending
+                ? query.OrderBy(options.OrderByExpression)
+                : query.OrderByDescending(options.OrderByExpression), pagedRequest.PageIndex, pagedRequest.ItemsPerPage))
                 .ToArrayAsync());
         }
 
-        public Task<TPagedResult> GetPage<TPagedResult>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null)
+        public Task<TPagedResult> GetPage<TPagedResult>(IPagedRequest pagedRequest, Action<PagerOptions<TModel, object>> pagerOptions)
             where TPagedResult : IPagedResult<TModel>
         {
-            return GetPage<TPagedResult, object>(pagedRequest, filterExpression);
+            return GetPage<TPagedResult, object>(pagedRequest, pagerOptions);
         }
     }
 }

@@ -2,6 +2,6 @@
 {
     public enum OrderBy
     {
-        None, Ascending, Descending
+        Ascending, Descending
     }
 }
