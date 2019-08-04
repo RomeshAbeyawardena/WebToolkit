@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
 
@@ -10,13 +11,15 @@ namespace WebToolkit.Shared
             Func<IMapper> mapper)
         {
             var sourceContainerType = typeof(TSourceContainer);
-            
+            var enumerableType = typeof(IEnumerable<>);
             var destinationContainerType = typeof(TDestinationContainer);
             var sourceType = sourceContainerType.GenericTypeArguments[0];
+            var sourceEnumerableType = enumerableType.MakeGenericType(sourceType);
             var destinationType = destinationContainerType.GenericTypeArguments[0];
+            var destinationEnumerableType = enumerableType.MakeGenericType(sourceType);
 
             var sourceProps = sourceContainerType.GetProperties(); 
-            var sourceProp = sourceProps.FirstOrDefault(p => p.PropertyType == sourceType);
+            var sourceProp = sourceProps.FirstOrDefault(p => p.PropertyType == sourceType || p.PropertyType == sourceEnumerableType);
             
             if(sourceProp == null)
                 throw new NullReferenceException("Source property not found");

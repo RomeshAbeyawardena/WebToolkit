@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Collections.Generic;
+using AutoMapper;
 using Moq;
 using WebToolkit.Shared;
 using Xunit;
@@ -10,30 +11,34 @@ namespace WebToolkit.Tests
         [Fact]
         public void Convert()
         {
-            var expected = new B
+            var expected = new B[]
             {
+                new B {
                 Context = int.MinValue,
                 Name = "Mapped",
                 Value = int.MaxValue
+                }
             };
 
-            var actual = new A
+            var actual = new []
             {
+                new A {
                 Context = int.MinValue,
                 Name = "Mapped",
                 Value = int.MaxValue
+                }
             };
 
             var mapperMock = new Mock<IMapper>();
                 mapperMock
-                    .Setup(a => a.Map(It.IsAny<A>(), typeof(A), typeof(B)))
+                    .Setup(a => a.Map(It.IsAny<IEnumerable<A>>(), typeof(A), typeof(B)))
                     .Returns(expected)
                     .Verifiable();
             var result =  MapExpression.Convert<MyContainer<A>, MyContainer<B>>(new MyContainer<A>
             {
                 Result = actual
             }, () => mapperMock.Object);
-            mapperMock.Verify(a => a.Map(It.IsAny<A>(),typeof(A), typeof(B)), Times.Once);
+            mapperMock.Verify(a => a.Map(It.IsAny<IEnumerable<A>>(),typeof(A), typeof(B)), Times.Once);
             
             Assert.Same(expected, result.Result);
         }
@@ -54,7 +59,7 @@ namespace WebToolkit.Tests
 
         internal class MyContainer<TModel>
         {
-            public TModel Result { get; set; }
+            public IEnumerable<TModel> Result { get; set; }
         }
     }
 }
