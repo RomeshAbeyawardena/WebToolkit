@@ -13,11 +13,11 @@ namespace WebToolkit.Contracts
         Task<TPagedResult> GetPage<TPagedResult>(IPagedRequest pagedRequest, Action<PagerOptions<TModel, object>> pagerOptions)
             where TPagedResult : IPagedResult<TModel>;
 
-        [Obsolete]
+        [Obsolete("Use improved GetPage method with pagerOptions parameter")]
         Task<TPagedResult> GetPage<TPagedResult, TKey>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null,
             OrderBy orderBy = OrderBy.None, Expression<Func<TModel, TKey>> orderByExpression = null) where TPagedResult : IPagedResult<TModel>;
         
-        [Obsolete]
+        [Obsolete("Use improved GetPage method with pagerOptions parameter")]
         Task<TPagedResult> GetPage<TPagedResult>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null)
             where TPagedResult : IPagedResult<TModel>;
     }

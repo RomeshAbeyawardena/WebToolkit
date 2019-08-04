@@ -77,7 +77,7 @@ namespace WebToolkit.Common
             return GetPage<TPagedResult, object>(pagedRequest, pagerOptions);
         }
 
-        [Obsolete]
+        [Obsolete("Use improved GetPage method with pagerOptions parameter")]
         public async Task<TPagedResult> GetPage<TPagedResult, TKey>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null,
             OrderBy orderBy = OrderBy.None, Expression<Func<TModel, TKey>> orderByExpression = null) where TPagedResult : IPagedResult<TModel>
         {
@@ -89,7 +89,7 @@ namespace WebToolkit.Common
             });
         }
 
-        [Obsolete]
+        [Obsolete("Use improved GetPage method with pagerOptions parameter")]
         public async Task<TPagedResult> GetPage<TPagedResult>(IPagedRequest pagedRequest, Expression<Func<TModel, bool>> filterExpression = null) where TPagedResult : IPagedResult<TModel>
         {
             return await GetPage<TPagedResult, object>(pagedRequest, options =>
