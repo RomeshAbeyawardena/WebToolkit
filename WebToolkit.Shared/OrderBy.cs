@@ -1,7 +1,9 @@
-﻿namespace WebToolkit.Shared
+﻿using System;
+
+namespace WebToolkit.Shared
 {
     public enum OrderBy
     {
-        Ascending, Descending
+        [Obsolete] None, Ascending, Descending
     }
 }
