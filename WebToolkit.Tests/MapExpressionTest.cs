@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using AutoMapper;
 using Moq;
-using WebToolkit.Shared;
+using WebToolkit.Contracts;
+using WebToolkit.Contracts.Providers;
 using Xunit;
 
 namespace WebToolkit.Tests
@@ -29,16 +30,16 @@ namespace WebToolkit.Tests
                 }
             };
 
-            var mapperMock = new Mock<IMapper>();
-                mapperMock
-                    .Setup(a => a.Map(It.IsAny<IEnumerable<A>>(), typeof(A), typeof(B)))
+            var mapperProviderMock = new Mock<IMapperProvider>();
+            mapperProviderMock
+                    .Setup(a => a.MapArray(It.IsAny<IEnumerable<A>>(), typeof(A), typeof(B)))
                     .Returns(expected)
                     .Verifiable();
             var result =  MapExpression.Convert<MyContainer<A>, MyContainer<B>>(new MyContainer<A>
             {
                 Result = actual
-            }, () => mapperMock.Object);
-            mapperMock.Verify(a => a.Map(It.IsAny<IEnumerable<A>>(),typeof(A), typeof(B)), Times.Once);
+            }, () => mapperProviderMock.Object);
+            mapperProviderMock.Verify(a => a.MapArray(It.IsAny<IEnumerable<A>>(),typeof(A), typeof(B)), Times.Once);
             
             Assert.Same(expected, result.Result);
         }

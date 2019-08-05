@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using AutoMapper;
+using WebToolkit.Contracts.Providers;
 
-namespace WebToolkit.Shared
+namespace WebToolkit.Contracts
 {
     public static class MapExpression
     {
         public static TDestinationContainer Convert<TSourceContainer, TDestinationContainer>(TSourceContainer container, 
-            Func<IMapper> mapper)
+            Func<IMapperProvider> mapperFunc)
         {
             var sourceContainerType = typeof(TSourceContainer);
             var enumerableType = typeof(IEnumerable<>);
@@ -23,8 +23,13 @@ namespace WebToolkit.Shared
             
             if(sourceProp == null)
                 throw new NullReferenceException("Source property not found");
-
-            var mappedValue = mapper().Map(sourceProp.GetValue(container), sourceType, destinationType);
+            
+            var mapper = mapperFunc();
+            var value = sourceProp.GetValue(container);
+            
+            var mappedValue = sourceProp.PropertyType.IsAssignableFrom(sourceEnumerableType) 
+                    ? mapper.MapArray(value, sourceType, destinationType) 
+                    : mapper.Map(value, sourceType, destinationType);
 
             var destinationContainer =  (TDestinationContainer)Activator.CreateInstance(destinationContainerType);
 

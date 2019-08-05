@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using WebToolkit.Contracts.Providers;
 
@@ -16,6 +17,19 @@ namespace WebToolkit.Common.Providers
         public IEnumerable<TDestination> Map<TSource, TDestination>(IEnumerable<TSource> source)
         {
             return _mapper.Map<IEnumerable<TSource>, IEnumerable<TDestination>>(source);
+        }
+
+        public object Map(object value, Type sourceType, Type destinationType)
+        {
+            return _mapper.Map(value, sourceType, destinationType);
+        }
+
+        public object MapArray(object value, Type sourceType, Type destinationType)
+        {
+            var enumerableGeneric = typeof(IEnumerable<>);
+            var sourceEnumerable = enumerableGeneric.MakeGenericType(sourceType);
+            var destinationEnumerable = enumerableGeneric.MakeGenericType(sourceType);
+            return Map(value, sourceEnumerable, destinationEnumerable);
         }
 
         public MapperProvider(IMapper mapper)
