@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using WebToolkit.Contracts.Providers;
 
 namespace WebToolkit.Contracts
