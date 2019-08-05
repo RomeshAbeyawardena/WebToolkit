@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using AutoMapper;
 using WebToolkit.Contracts.Providers;
@@ -28,8 +29,10 @@ namespace WebToolkit.Common.Providers
         {
             var enumerableGeneric = typeof(IEnumerable<>);
             var sourceEnumerable = enumerableGeneric.MakeGenericType(sourceType);
-            var destinationEnumerable = enumerableGeneric.MakeGenericType(sourceType);
-            return Map(value, sourceEnumerable, destinationEnumerable);
+            var destinationEnumerable = enumerableGeneric.MakeGenericType(destinationType);
+            var mappedValue = Map(value, sourceEnumerable, destinationEnumerable);
+
+            return mappedValue;
         }
 
         public MapperProvider(IMapper mapper)
