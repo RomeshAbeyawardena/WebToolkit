@@ -19,7 +19,9 @@ namespace WebToolkit.Tests
             var array = sut.ToArray();
             foreach (var includeExpression in array)
             {
-                Assert.NotNull(includeExpression);
+                var genericIncludeExpressionType = typeof(IncludeExpression<,>).MakeGenericType(typeof(TestClass), 
+                    includeExpression.GetType().GenericTypeArguments[1]);
+                Assert.IsType(genericIncludeExpressionType, includeExpression);
             }
         }
 
