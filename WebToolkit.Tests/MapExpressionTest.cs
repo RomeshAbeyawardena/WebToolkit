@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using AutoMapper;
 using Moq;
-using WebToolkit.Contracts;
+using WebToolkit.Common;
 using WebToolkit.Contracts.Providers;
 using Xunit;
 
@@ -31,7 +31,7 @@ namespace WebToolkit.Tests
                 }
             };
 
-
+            var context = new object();
 
             var mapperProviderMock = new Mock<IMapperProvider>();
             mapperProviderMock
@@ -40,7 +40,7 @@ namespace WebToolkit.Tests
                     .Verifiable();
             var result =  MapExpression.Convert<MyContainer<A>, MyContainer<B>>(new MyContainer<A>
             {
-                Context = new object(),
+                Context = context,
                 Value = 12345,
                 Name = "Axe",
                 Result = actual
@@ -49,7 +49,7 @@ namespace WebToolkit.Tests
             
             Assert.Equal("Axe", result.Name);
             Assert.Equal(12345, result.Value);
-            Assert.Equal(new object(), result.Context);
+            Assert.Equal(context, result.Context);
             Assert.Same(expected, result.Result);
         }
 

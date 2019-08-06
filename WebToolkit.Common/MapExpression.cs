@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using WebToolkit.Contracts.Providers;
 
-namespace WebToolkit.Contracts
+namespace WebToolkit.Common
 {
     public static class MapExpression
     {
@@ -37,11 +37,11 @@ namespace WebToolkit.Contracts
             var destinationProp = destinationContainerType.GetProperty(sourceProp.Name);
 
             if (destinationProp == null)
-                throw new NullReferenceException("Source property not found");
+                throw new NullReferenceException("Destination property not found");
 
             destinationProp.SetValue(destinationContainer, mappedValue);
 
-            //We do a shallow copy of the other properties as we don't want to have to setup an additional mapping.
+            //We do a shallow copy of the other properties as we don't want to have to setup an unnecessary additional mapping in AutoMapper for this.
             CopyProperties(sourceContainerType.GetProperties(), 
                 destinationContainerType.GetProperties(),
                 propertyInfo => propertyInfo.Name != sourceProp.Name, 
