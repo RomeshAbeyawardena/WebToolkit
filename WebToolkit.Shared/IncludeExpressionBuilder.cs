@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using WebToolkit.Shared.Contracts;
 
 namespace WebToolkit.Shared
@@ -18,6 +20,11 @@ namespace WebToolkit.Shared
         public IncludeExpressionBuilder<TModel> AddExpression(IIncludeExpression<TModel> expression)
         {
             _includeExpressions.Add(expression);
+            return this;
+        }
+        public IncludeExpressionBuilder<TModel> AddExpression<TKey>(Expression<Func<TModel, TKey>> expression)
+        {
+            AddExpression(IncludeExpression<TModel, TKey>.Create(expression));
             return this;
         }
 

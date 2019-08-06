@@ -6,14 +6,14 @@ namespace WebToolkit.Shared
 {
     public class IncludeExpression<TModel, TKey> : IIncludeExpression<TModel>
     {
-        private IncludeExpression(Func<TModel, TKey> value)
+        private IncludeExpression(Expression<Func<TModel, TKey>> value)
         {
             Value = value;
         }
 
-        public Func<TModel, TKey> Value { get; }
+        public Expression<Func<TModel, TKey>> Value { get; }
 
-        public static IIncludeExpression<TModel> Create(Func<TModel, TKey> value)
+        public static IIncludeExpression<TModel> Create(Expression<Func<TModel, TKey>> value)
         {
             return new IncludeExpression<TModel, TKey>(value);
         }
