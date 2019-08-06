@@ -17,7 +17,6 @@ namespace WebToolkit.Contracts
             var sourceType = sourceContainerType.GenericTypeArguments[0];
             var sourceEnumerableType = enumerableType.MakeGenericType(sourceType);
             var destinationType = destinationContainerType.GenericTypeArguments[0];
-            var destinationEnumerableType = enumerableType.MakeGenericType(sourceType);
 
             var sourceProps = sourceContainerType.GetProperties();
             var sourceProp = sourceProps.FirstOrDefault(p =>
