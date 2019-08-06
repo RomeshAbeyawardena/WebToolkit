@@ -60,9 +60,17 @@ namespace WebToolkit.Common
 
             var query = _modelRepository.Query(options.FilterExpression);
             var totalItems = await query.CountAsync();
-            
+
             if(options.OrderByExpression == null)
                 throw new ArgumentNullException(nameof(options.OrderByExpression));
+
+            if (options.IncludeExpressions != null)
+            {
+                foreach (var optionsIncludeExpression in options.IncludeExpressions)
+                {
+                    query = query.Include(optionsIncludeExpression.Value);
+                }
+            }
 
             return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, pagedRequest.ItemsPerPage, totalItems, 
                 await (await GetPagedResult(options.OrderBy == OrderBy.Ascending
