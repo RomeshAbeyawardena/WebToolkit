@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using AutoMapper;
 using Moq;
 using WebToolkit.Contracts;
@@ -30,6 +31,8 @@ namespace WebToolkit.Tests
                 }
             };
 
+
+
             var mapperProviderMock = new Mock<IMapperProvider>();
             mapperProviderMock
                     .Setup(a => a.MapArray(It.IsAny<IEnumerable<A>>(), typeof(A), typeof(B)))
@@ -37,10 +40,16 @@ namespace WebToolkit.Tests
                     .Verifiable();
             var result =  MapExpression.Convert<MyContainer<A>, MyContainer<B>>(new MyContainer<A>
             {
+                Context = new object(),
+                Value = 12345,
+                Name = "Axe",
                 Result = actual
             }, () => mapperProviderMock.Object);
             mapperProviderMock.Verify(a => a.MapArray(It.IsAny<IEnumerable<A>>(),typeof(A), typeof(B)), Times.Once);
             
+            Assert.Equal("Axe", result.Name);
+            Assert.Equal(12345, result.Value);
+            Assert.Equal(new object(), result.Context);
             Assert.Same(expected, result.Result);
         }
 
@@ -60,6 +69,9 @@ namespace WebToolkit.Tests
 
         internal class MyContainer<TModel>
         {
+            public int Value { get; set; }
+            public string Name { get; set; }
+            public object Context { get; set; }
             public IEnumerable<TModel> Result { get; set; }
         }
     }
