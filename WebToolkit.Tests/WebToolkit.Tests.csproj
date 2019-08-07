@@ -21,4 +21,4 @@
     <ProjectReference Include="..\WebToolkit.Common\WebToolkit.Common.csproj" />
     <ProjectReference Include="..\WebToolkit.Contracts\WebToolkit.Contracts.csproj" />
   </ItemGroup>
- </Project>  
+</Project>

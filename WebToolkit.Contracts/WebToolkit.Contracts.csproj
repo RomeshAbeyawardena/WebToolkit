@@ -14,4 +14,4 @@
   <ItemGroup>
     <ProjectReference Include="..\WebToolkit.Shared\WebToolkit.Shared.csproj" />
   </ItemGroup>
-</Project>  
+</Project>
