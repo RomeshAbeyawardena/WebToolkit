@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebToolkit.Contracts.Providers;
@@ -57,11 +58,12 @@ namespace WebToolkit.Common.Extensions
                 .Select(pi => pi.GetValue(value)).ToArray();
         }
 
-        public static TKeySelector Apply<T, TKeySelector>(this T target, Action<PropertyInfo, object> applyAction, Func<T, TKeySelector> keySelector)
+        public static void Apply<T, TKeySelector>(this T target, Action<PropertyInfo, object> applyAction, Expression<Func<T, TKeySelector>> keySelector)
         {
-            var oldValue = keySelector(target);
-            typeof(T).Apply(applyAction, target, oldValue.GetType().Name);
-            return oldValue;
+            if(!(keySelector.Body is MemberExpression memberExpression))
+                throw new InvalidOperationException("Expression not a member expression");
+
+            typeof(T).Apply(applyAction, target, memberExpression.Member.Name);
         }
 
         public static bool IsDefault(this object val)
