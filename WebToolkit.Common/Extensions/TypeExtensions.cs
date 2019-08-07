@@ -44,6 +44,15 @@ namespace WebToolkit.Common.Extensions
                     : default;
         }
 
+        /// <summary>
+        /// Applies multiple actions on a single property of a target type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="applyAction"></param>
+        /// <param name="target"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="propertyInfo"></param>
+        /// <returns></returns>
         public static PropertyInfo Apply(this Type type, Action<PropertyInfo, object> applyAction, object target, string propertyName = null, PropertyInfo propertyInfo = null)
         {
             var property = string.IsNullOrEmpty(propertyName) 
@@ -58,6 +67,13 @@ namespace WebToolkit.Common.Extensions
             return property;
         }
 
+        /// <summary>
+        /// Applies multiple actions on all properties of a target type
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="target"></param>
+        /// <param name="applyAction"></param>
+        /// <returns></returns>
         public static IEnumerable<PropertyInfo> ApplyAll(this Type type, object target, Action<PropertyInfo, object> applyAction)
         {
             var properties = type.GetProperties();

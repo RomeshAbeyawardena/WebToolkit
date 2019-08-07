@@ -57,6 +57,13 @@ namespace WebToolkit.Common.Extensions
                 .Select(pi => pi.GetValue(value)).ToArray();
         }
 
+        public static TKeySelector Apply<T, TKeySelector>(this T target, Action<PropertyInfo, object> applyAction, Func<T, TKeySelector> keySelector)
+        {
+            var oldValue = keySelector(target);
+            typeof(T).Apply(applyAction, target, oldValue.GetType().Name);
+            return oldValue;
+        }
+
         public static bool IsDefault(this object val)
         {
             switch (val)
