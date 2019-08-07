@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 
 namespace WebToolkit.Common.Extensions
 {
-    public static class LambdaExpression
+    public static class LambdaExpressionExtensions
     {
         public static Expression<Func<TInput, object>> ToUntypedPropertyExpression<TInput, TOutput> (this Expression<Func<TInput, TOutput>> expression)
         {
@@ -11,7 +11,8 @@ namespace WebToolkit.Common.Extensions
 
             var param = Expression.Parameter(typeof(TInput));
             var field = Expression.Property(param, memberName);
-            return Expression.Lambda<Func<TInput, object>>(field, param);
+            var convertedField = Expression.Convert(field, typeof(object));
+            return Expression.Lambda<Func<TInput, object>>(convertedField, param);
         }
     }
 }
