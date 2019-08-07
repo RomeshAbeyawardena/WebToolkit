@@ -9,6 +9,24 @@ using WebToolkit.Contracts.Builders;
 
 namespace WebToolkit.Common
 {
+    public sealed class Switch
+    {
+        public static DefaultSwitch Default => new DefaultSwitch();
+
+        public static ISwitch<TKey, TValue> Create<TKey, TValue>(
+            Func<IDictionaryBuilder<TKey, TValue>, IDictionaryBuilder<TKey, TValue>> switchDictionaryBuilder,
+            Func<object> defaultValueExpression = null)
+        {
+            return Switch<TKey, TValue>.Create(switchDictionaryBuilder, defaultValueExpression);
+        }
+
+        public static ISwitch<TKey, TValue> Create<TKey, TValue>(IDictionary<TKey, TValue> switchDictionary = null,
+            Func<object> defaultValueExpression = null)
+        {
+            return Switch<TKey, TValue>.Create(switchDictionary, defaultValueExpression);
+        }
+    }
+
     public sealed class Switch<TKey, TValue> : ISwitch<TKey, TValue>
     {
         public static ISwitch<TKey, TValue> Create(Func<IDictionaryBuilder<TKey, TValue>, IDictionaryBuilder<TKey, TValue>> switchDictionaryBuilder, 
@@ -60,10 +78,17 @@ namespace WebToolkit.Common
             if (_switchDictionary.TryGetValue(key, out var value))
                 return value;
 
-            if (_defaultValueExpression != null)
-                return (TValue)_defaultValueExpression();
+            
+            if (_defaultValueExpression == null)
+                throw new ArgumentException($"Unable to find a value for {key}", nameof(key));
 
-            throw new ArgumentException($"Unable to find a value for {key}", nameof(key));
+            var defaultValue = _defaultValueExpression();
+
+            if (defaultValue is DefaultSwitch)
+                return default;
+
+            return (TValue)defaultValue;
+
         }
 
         public IDictionary<TKey, TValue> ToDictionary()
@@ -95,5 +120,10 @@ namespace WebToolkit.Common
 
         private Func<object> _defaultValueExpression;
         private readonly IDictionary<TKey, TValue> _switchDictionary;
+    }
+
+    public sealed class DefaultSwitch
+    {
+
     }
 }
