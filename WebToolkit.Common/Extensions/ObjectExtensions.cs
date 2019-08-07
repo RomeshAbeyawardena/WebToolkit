@@ -32,7 +32,6 @@ namespace WebToolkit.Common.Extensions
             return encodingProvider.GetString(byteValue, encoding);
         }
 
-        
         public static async Task ForEach<T>(this IEnumerable<T> items, Func<T, Task> action)
         {
             foreach (var item in items)
