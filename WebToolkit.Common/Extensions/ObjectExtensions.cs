@@ -60,9 +60,7 @@ namespace WebToolkit.Common.Extensions
 
         public static void Apply<T, TKeySelector>(this T target, Action<PropertyInfo, object> applyAction, Expression<Func<T, TKeySelector>> keySelector)
         {
-            var memberExpression = keySelector.Body as MemberExpression;
-
-            if(memberExpression == null)
+            if(!(keySelector.Body is MemberExpression memberExpression))
                 throw new InvalidOperationException("Expression not a member expression");
 
             typeof(T).Apply(applyAction, target, memberExpression.Member.Name);
