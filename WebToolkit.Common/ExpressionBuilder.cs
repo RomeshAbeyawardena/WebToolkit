@@ -1,8 +1,8 @@
 ﻿using System.Linq.Expressions;
 
-namespace WebToolkit.Shared
+namespace WebToolkit.Common
 {
-    public class ExpressionBuilder
+    public static class ExpressionBuilder
     {
         public static dynamic Generate<TModel>(string memberName)
         {
