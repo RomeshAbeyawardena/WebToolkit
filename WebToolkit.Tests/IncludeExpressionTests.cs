@@ -11,6 +11,7 @@ namespace WebToolkit.Tests
         [Fact]
         public void Value_Returns()
         {
+            
             var sut = IncludeExpressionBuilder<TestClass>
                 .CreateBuilder()
                 .AddExpression(a => a.A)
@@ -26,11 +27,11 @@ namespace WebToolkit.Tests
                 var genericIncludeExpressionType = typeof(IncludeExpression<,>)
                     .MakeGenericType(testClassType, keyType);
 
-                var genericFunc = typeof(Func<,>).MakeGenericType(testClassType, keyType);
+                var genericFunc = typeof(Func<,>).MakeGenericType(testClassType, typeof(object));
                 var genericExpression = typeof(Expression<>).MakeGenericType(genericFunc);
                 
                 Assert.IsType(genericIncludeExpressionType, includeExpression);
-                Assert.IsType(genericExpression, includeExpression.Value);
+                Assert.IsAssignableFrom(genericExpression, includeExpression.Value);
             }
         }
 
