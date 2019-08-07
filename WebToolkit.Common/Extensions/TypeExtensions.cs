@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
@@ -41,6 +42,30 @@ namespace WebToolkit.Common.Extensions
                 type.TryGetCustomAttribute<TAttribute>(out var customAttribute) 
                     ? getValue(customAttribute) 
                     : default;
+        }
+
+        public static PropertyInfo Apply(this Type type, Action<PropertyInfo, object> applyAction, object target, string propertyName = null, PropertyInfo propertyInfo = null)
+        {
+            var property = string.IsNullOrEmpty(propertyName) 
+                ? propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo)) 
+                : GetPropertyByName(type, propertyName);
+
+            if(property == null)
+                throw new ArgumentNullException(nameof(propertyName));
+
+            applyAction(property, target);
+
+            return property;
+        }
+
+        public static IEnumerable<PropertyInfo> ApplyAll(this Type type, object target, Action<PropertyInfo, object> applyAction)
+        {
+            var properties = type.GetProperties();
+
+            return properties
+                .Select(property => 
+                    Apply(type, applyAction, target, propertyInfo: property))
+                .ToArray();
         }
 
         public static PropertyInfo GetPropertyByName(this Type type, string propertyName)
