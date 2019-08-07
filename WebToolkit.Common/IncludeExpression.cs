@@ -18,6 +18,12 @@ namespace WebToolkit.Shared
             return new IncludeExpression<TModel, TKey>(value);
         }
 
-        Expression<Func<TModel, object>> IIncludeExpression<TModel>.Value => throw new NotSupportedException();
+        Expression<Func<TModel, object>> IIncludeExpression<TModel>.Value
+        {
+            get
+            {
+                return Value.ToUntypedPropertyExpression()
+            }
+        }
     }
 }
