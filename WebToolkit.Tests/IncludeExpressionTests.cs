@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq.Expressions;
 using WebToolkit.Shared;
 using WebToolkit.Tests.Models;
