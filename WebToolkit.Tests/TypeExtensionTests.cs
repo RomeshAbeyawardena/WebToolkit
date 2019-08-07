@@ -65,6 +65,9 @@ namespace WebToolkit.Tests
 
             myApplicableClassType.Apply((a, target) => a.SetValue(target, 12394), myApplicableClass, "AnotherValue");
             Assert.Equal(12394, myApplicableClass.AnotherValue);
+
+            myApplicableClass.Apply((a, target) => a.SetValue(target, 42321), a => a.AnotherValue);
+            Assert.Equal(42321, myApplicableClass.AnotherValue);
         }
 
         private interface ITestInterface
