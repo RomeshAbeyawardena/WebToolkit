@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq.Expressions;
+using WebToolkit.Common.Extensions;
 using WebToolkit.Shared.Contracts;
 
 namespace WebToolkit.Shared
@@ -18,6 +19,6 @@ namespace WebToolkit.Shared
             return new IncludeExpression<TModel, TKey>(value);
         }
 
-        Expression<Func<TModel, object>> IIncludeExpression<TModel>.Value => Value as Expression<Func<TModel, object>>;
+        Expression<Func<TModel, object>> IIncludeExpression<TModel>.Value => Value.ToUntypedPropertyExpression();
     }
 }

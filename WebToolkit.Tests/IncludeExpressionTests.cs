@@ -1,4 +1,6 @@
-﻿using WebToolkit.Shared;
+using System;
+using System.Linq.Expressions;
+using WebToolkit.Shared;
 using WebToolkit.Tests.Models;
 using Xunit;
 
@@ -9,6 +11,7 @@ namespace WebToolkit.Tests
         [Fact]
         public void Value_Returns()
         {
+            
             var sut = IncludeExpressionBuilder<TestClass>
                 .CreateBuilder()
                 .AddExpression(a => a.A)
@@ -19,9 +22,16 @@ namespace WebToolkit.Tests
             var array = sut.ToArray();
             foreach (var includeExpression in array)
             {
-                var genericIncludeExpressionType = typeof(IncludeExpression<,>).MakeGenericType(typeof(TestClass), 
-                    includeExpression.GetType().GenericTypeArguments[1]);
+                var testClassType = typeof(TestClass);
+                var keyType = includeExpression.GetType().GenericTypeArguments[1];
+                var genericIncludeExpressionType = typeof(IncludeExpression<,>)
+                    .MakeGenericType(testClassType, keyType);
+
+                var genericFunc = typeof(Func<,>).MakeGenericType(testClassType, typeof(object));
+                var genericExpression = typeof(Expression<>).MakeGenericType(genericFunc);
+                
                 Assert.IsType(genericIncludeExpressionType, includeExpression);
+                Assert.IsAssignableFrom(genericExpression, includeExpression.Value);
             }
         }
 
