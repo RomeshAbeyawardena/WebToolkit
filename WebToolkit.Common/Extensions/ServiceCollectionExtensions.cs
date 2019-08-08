@@ -89,6 +89,7 @@ namespace WebToolkit.Common.Extensions
         {
             return service
                 .AddSingleton<IFileProvider, FileProvider>()
+                .AddSingleton<IMimeTypeProvider, MimeTypeProvider>()
                 .AddSingleton(Switch<Contracts.Providers.Encoding, Encoding>
                     .Create(defaultValueExpression: () => default(Encoding))
                     .CaseWhen(Contracts.Providers.Encoding.Ascii, Encoding.ASCII)
