@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using AutoMapper;
+﻿using System.Collections.Generic;
 using Moq;
 using WebToolkit.Common;
 using WebToolkit.Contracts.Providers;

@@ -1,7 +1,6 @@
 using System;
 using System.Linq.Expressions;
 using WebToolkit.Shared;
-using WebToolkit.Tests.Models;
 using Xunit;
 
 namespace WebToolkit.Tests
