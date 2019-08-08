@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using WebToolkit.Contracts;
+using WebToolkit.Shared;
 
 namespace WebToolkit.Common
 {

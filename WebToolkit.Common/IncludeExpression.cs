@@ -3,7 +3,7 @@ using System.Linq.Expressions;
 using WebToolkit.Common.Extensions;
 using WebToolkit.Shared.Contracts;
 
-namespace WebToolkit.Shared
+namespace WebToolkit.Common
 {
     public class IncludeExpression<TModel, TKey> : IIncludeExpression<TModel>
     {

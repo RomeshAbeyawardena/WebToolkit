@@ -4,7 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using WebToolkit.Shared.Contracts;
 
-namespace WebToolkit.Shared
+namespace WebToolkit.Common
 {
     public class IncludeExpressionBuilder<TModel>
     {
