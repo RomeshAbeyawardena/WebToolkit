@@ -51,10 +51,18 @@ namespace WebToolkit.Tests
                 .CaseWhen(typeof(bool), false)
                 .CaseWhenDefault(Switch.Default);
 
+            var myTypeSwitch2 = Switch.Create<Type, object>()
+                .CaseWhen(typeof(int), 678910)
+                .CaseWhen(typeof(string), "Test2")
+                .CaseWhen(typeof(decimal), 9.234m)
+                .CaseWhen(typeof(float), 51.23f)
+                .CaseWhen(typeof(bool), true)
+                .CaseWhenDefault(Switch.Default);
+
             var myApplicableClass = new MyApplicableClass();
 
             var myApplicableClassType = typeof(MyApplicableClass);
-
+            //type based ApplyAll and Apply
             myApplicableClassType.ApplyAll( myApplicableClass, (a, target) => a.SetValue(target, myTypeSwitch.Case(a.PropertyType)));
 
             Assert.Equal(myTypeSwitch.Case(typeof(int)), myApplicableClass.MyInt);
@@ -65,6 +73,16 @@ namespace WebToolkit.Tests
 
             myApplicableClassType.Apply((a, target) => a.SetValue(target, 12394), myApplicableClass, "AnotherValue");
             Assert.Equal(12394, myApplicableClass.AnotherValue);
+
+            //instance based ApplyAll and Apply
+
+            myApplicableClass.ApplyAll((a, target) => a.SetValue(target, myTypeSwitch2.Case(a.PropertyType)));
+
+            Assert.Equal(myTypeSwitch2.Case(typeof(int)), myApplicableClass.MyInt);
+            Assert.Equal(myTypeSwitch2.Case(typeof(string)), myApplicableClass.MyString);
+            Assert.Equal(myTypeSwitch2.Case(typeof(decimal)), myApplicableClass.MyDecimal);
+            Assert.Equal(myTypeSwitch2.Case(typeof(float)), myApplicableClass.MyFloat);
+            Assert.Equal(myTypeSwitch2.Case(typeof(bool)), myApplicableClass.MyBool);
 
             myApplicableClass.Apply((a, target) => a.SetValue(target, 42321), a => a.AnotherValue);
             Assert.Equal(42321, myApplicableClass.AnotherValue);
