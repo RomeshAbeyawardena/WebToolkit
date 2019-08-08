@@ -66,6 +66,11 @@ namespace WebToolkit.Common.Extensions
             typeof(T).Apply(applyAction, target, memberExpression.Member.Name);
         }
 
+        public static void ApplyAll<T>(this T target, Action<PropertyInfo, object> applyAction)
+        {
+            typeof(T).ApplyAll(target, applyAction);
+        }
+
         public static bool IsDefault(this object val)
         {
             switch (val)
