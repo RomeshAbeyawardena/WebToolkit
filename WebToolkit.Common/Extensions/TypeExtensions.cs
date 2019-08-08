@@ -57,7 +57,7 @@ namespace WebToolkit.Common.Extensions
         {
             var property = string.IsNullOrEmpty(propertyName) 
                 ? propertyInfo ?? throw new ArgumentNullException(nameof(propertyInfo)) 
-                : GetPropertyByName(type, propertyName);
+                : GetProperty(type, propertyName);
 
             if(property == null)
                 throw new ArgumentNullException(nameof(propertyName));
@@ -84,10 +84,18 @@ namespace WebToolkit.Common.Extensions
                 .ToArray();
         }
 
-        public static PropertyInfo GetPropertyByName(this Type type, string propertyName)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <param name="propertyName"></param>
+        /// <param name="bindingFlags"></param>
+        /// <returns></returns>
+        public static PropertyInfo GetProperty(this Type type, string propertyName, BindingFlags bindingFlags = default)
         {
-            return type
-                .GetProperties()
+            return bindingFlags != default 
+                ? type.GetProperty(propertyName, bindingFlags) 
+                : type.GetProperties()
                 .FirstOrDefault(property => property.Name == propertyName);
         }
     }

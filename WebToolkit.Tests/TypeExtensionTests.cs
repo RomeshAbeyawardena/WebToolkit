@@ -24,8 +24,8 @@ namespace WebToolkit.Tests
         [Fact]
         public void TryGetCustomAttribute_returns()
         {
-            var sut = typeof(TestNonInheritedClass2).GetPropertyByName("Value");
-            var sut2 = typeof(TestNonInheritedClass).GetPropertyByName("Value");
+            var sut = typeof(TestNonInheritedClass2).GetProperty("Value");
+            var sut2 = typeof(TestNonInheritedClass).GetProperty("Value");
             Assert.True(sut.TryGetCustomAttribute<IsAttribute>(out var isAttribute));
             Assert.IsType<IsAttribute>(isAttribute);
             Assert.False(sut2.TryGetCustomAttribute<IsAttribute>(out var isAttribute2));
@@ -35,7 +35,7 @@ namespace WebToolkit.Tests
         [Fact]
         public void GetCustomAttributeValue_returns()
         {
-            var sut = typeof(TestNonInheritedClass2).GetPropertyByName("Value");
+            var sut = typeof(TestNonInheritedClass2).GetProperty("Value");
 
             Assert.True(sut.GetCustomAttributeValue<IsAttribute, bool>(a => a.IsActive));
         }
