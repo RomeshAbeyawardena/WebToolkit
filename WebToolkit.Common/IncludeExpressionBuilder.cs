@@ -46,7 +46,7 @@ namespace WebToolkit.Common
         }
 
         public IEnumerable<IIncludeExpression<TModel>> ToArray() => _includeExpressions.ToArray();
-
+        
         public static IncludeExpressionBuilder<TModel> CreateBuilder(IEnumerable<IIncludeExpression<TModel>> includeExpressions = null)
         {
             return new IncludeExpressionBuilder<TModel>(includeExpressions);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using WebToolkit.Common.Extensions;
 using WebToolkit.Contracts;
 using WebToolkit.Contracts.Data;
 using WebToolkit.Shared;
@@ -66,10 +67,7 @@ namespace WebToolkit.Common
 
             if (options.IncludeExpressions != null)
             {
-                foreach (var optionsIncludeExpression in options.IncludeExpressions)
-                {
-                    query = query.Include(optionsIncludeExpression.Value);
-                }
+                query.IncludeMany(options.IncludeExpressions);
             }
 
             return CreatePagedResult<TPagedResult>(pagedRequest.PageIndex, pagedRequest.ItemsPerPage, totalItems, 
