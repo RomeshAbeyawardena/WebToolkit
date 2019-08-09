@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WebToolkit.Common
+﻿namespace WebToolkit.Common
 {
     public class DbContextExtendedOptions
     {

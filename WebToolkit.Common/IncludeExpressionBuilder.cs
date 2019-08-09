@@ -4,9 +4,25 @@ using System.Linq;
 using System.Linq.Expressions;
 using WebToolkit.Shared.Contracts;
 
-namespace WebToolkit.Shared
+namespace WebToolkit.Common
 {
-    public class IncludeExpressionBuilder<TModel>
+    public sealed class IncludeExpressionBuilder
+    {
+        public static IncludeExpressionBuilder<TModel> CreateBuilder<TModel>(IEnumerable<IIncludeExpression<TModel>> includeExpressions = null)
+        {
+            return IncludeExpressionBuilder<TModel>.CreateBuilder(includeExpressions);
+        }
+
+        public static IncludeExpressionBuilder<TModel> CreateBuilder<TModel>(
+            Action<IncludeExpressionBuilder<TModel>> builder)
+        {
+            var expressionBuilder = CreateBuilder<TModel>();
+            builder(expressionBuilder);
+            return expressionBuilder;
+        }
+    }
+
+    public sealed class IncludeExpressionBuilder<TModel>
     {
         private readonly IList<IIncludeExpression<TModel>> _includeExpressions;
 
@@ -22,9 +38,10 @@ namespace WebToolkit.Shared
             _includeExpressions.Add(expression);
             return this;
         }
+
         public IncludeExpressionBuilder<TModel> AddExpression<TKey>(Expression<Func<TModel, TKey>> expression)
         {
-            AddExpression(IncludeExpression<TModel, TKey>.Create(expression));
+            AddExpression(IncludeExpression.Create(expression));
             return this;
         }
 
