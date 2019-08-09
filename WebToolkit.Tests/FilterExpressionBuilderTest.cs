@@ -14,25 +14,27 @@ namespace WebToolkit.Tests
         public void GetFilterExpression()
         {
             var a = FilterExpressionBuilder.CreateBuilder<IncludeExpressionTests.TestClass>(
-                new Dictionary<string, FilterExpressionParameter>
+                builder =>
                 {
-                    {"b", FilterExpressionParameter.Create(f =>
+                    builder.Add("b", FilterExpressionParameter.Create(f =>
                     {
                         f.Operator = Operator.And;
                         f.Value = "Test";
                         f.ComparisonType = ComparisonType.Equal;
-                    })},
-                    { "a", FilterExpressionParameter.Create(f => {
+                    }));
+                    builder.Add("a", FilterExpressionParameter.Create(f =>
+                    {
                         f.Operator = Operator.Not;
                         f.Value = "Test21321";
                         f.ComparisonType = ComparisonType.Contains;
-                    })},
-                    { "c", FilterExpressionParameter.Create(f => {
+                    }));
+                    builder.Add("c", FilterExpressionParameter.Create(f =>
+                    {
                         f.Operator = Operator.Or;
                         f.Value = 64571;
                         f.ComparisonType = ComparisonType.LessThan;
-                    })}
-                    }).FilterExpression;
+                    }));
+                }).FilterExpression;
 
             Assert.IsAssignableFrom<Expression<Func<IncludeExpressionTests.TestClass, bool>>>(a);
         }
