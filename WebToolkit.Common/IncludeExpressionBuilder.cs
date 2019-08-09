@@ -38,6 +38,7 @@ namespace WebToolkit.Common
             _includeExpressions.Add(expression);
             return this;
         }
+
         public IncludeExpressionBuilder<TModel> AddExpression<TKey>(Expression<Func<TModel, TKey>> expression)
         {
             AddExpression(IncludeExpression.Create(expression));
