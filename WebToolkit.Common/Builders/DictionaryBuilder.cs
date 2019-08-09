@@ -5,6 +5,14 @@ using WebToolkit.Contracts.Builders;
 
 namespace WebToolkit.Common.Builders
 {
+    public sealed class DictionaryBuilder
+    {
+        public static IDictionaryBuilder<TKey, TValue> CreateBuilder<TKey, TValue>()
+        {
+            return DictionaryBuilder<TKey, TValue>.Create();
+        }
+    }
+
     public sealed class DictionaryBuilder<TKey, TValue> : IDictionaryBuilder<TKey, TValue>
     {
         public TValue this[TKey key] => _internalDictionary[key];
