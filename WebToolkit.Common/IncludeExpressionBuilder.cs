@@ -6,7 +6,23 @@ using WebToolkit.Shared.Contracts;
 
 namespace WebToolkit.Common
 {
-    public class IncludeExpressionBuilder<TModel>
+    public sealed class IncludeExpressionBuilder
+    {
+        public static IncludeExpressionBuilder<TModel> CreateBuilder<TModel>(IEnumerable<IIncludeExpression<TModel>> includeExpressions = null)
+        {
+            return IncludeExpressionBuilder<TModel>.CreateBuilder(includeExpressions);
+        }
+
+        public static IncludeExpressionBuilder<TModel> CreateBuilder<TModel>(
+            Action<IncludeExpressionBuilder<TModel>> builder)
+        {
+            var expressionBuilder = CreateBuilder<TModel>();
+            builder(expressionBuilder);
+            return expressionBuilder;
+        }
+    }
+
+    public sealed class IncludeExpressionBuilder<TModel>
     {
         private readonly IList<IIncludeExpression<TModel>> _includeExpressions;
 

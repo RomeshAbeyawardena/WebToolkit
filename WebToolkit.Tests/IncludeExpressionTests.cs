@@ -12,12 +12,14 @@ namespace WebToolkit.Tests
         public void Value_Returns()
         {
             
-            var sut = IncludeExpressionBuilder<TestClass>
-                .CreateBuilder()
-                .AddExpression(a => a.A)
-                .AddExpression(a => a.B)
-                .AddExpression(a => a.C)
-                .AddExpression(a => a.D);
+            var sut = IncludeExpressionBuilder
+                .CreateBuilder<TestClass>(builder =>
+                {
+                    builder.AddExpression(a => a.A)
+                        .AddExpression(a => a.B)
+                        .AddExpression(a => a.C)
+                        .AddExpression(a => a.D);
+                });
 
             var array = sut.ToArray();
             foreach (var includeExpression in array)
