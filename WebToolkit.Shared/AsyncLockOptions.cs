@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 
-namespace WebToolkit.Common
+namespace WebToolkit.Shared
 {
     public class AsyncLockOptions
     {
