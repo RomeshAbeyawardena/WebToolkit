@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 
 namespace WebToolkit.Common
@@ -22,13 +23,22 @@ namespace WebToolkit.Common
             _filterDictionary = filterDictionary;
         }
 
-        private Expression<Func<TModel, bool>> GetFilterExpression(IDictionary<string, object> filterDictionary)
+        private Expression<Func<TModel, bool>> GetFilterExpression (IDictionary<string, object> filterDictionary)
         {
-            foreach (var o in filterDictionary)
-            {
-                
-            }
-            return new Expression<Func<TModel, bool>>();
+            var modelType = typeof(TModel);
+            var objectType = typeof(object);
+            var expressionParameter = Expression.Parameter(modelType, "model");
+
+            var assignedExpression = (from o in filterDictionary
+                let body = Expression.PropertyOrField(expressionParameter, o.Key)
+                let constant = Expression.Constant(o.Value)
+                select Expression.Equal(body, constant))
+                    .Aggregate<BinaryExpression, Expression>(null, (current, equateExpression) => current == null
+                ? equateExpression
+                : Expression.And(current, equateExpression));
+
+            var expression = Expression.Lambda<Func<TModel, bool>>(assignedExpression, expressionParameter);
+            return expression;
         }
 
         public static FilterExpressionBuilder<TModel> CreateBuilder(IDictionary<string, object> filterDictionary)
