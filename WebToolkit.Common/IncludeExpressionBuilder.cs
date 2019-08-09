@@ -40,7 +40,7 @@ namespace WebToolkit.Common
         }
         public IncludeExpressionBuilder<TModel> AddExpression<TKey>(Expression<Func<TModel, TKey>> expression)
         {
-            AddExpression(IncludeExpression<TModel, TKey>.Create(expression));
+            AddExpression(IncludeExpression.Create(expression));
             return this;
         }
 

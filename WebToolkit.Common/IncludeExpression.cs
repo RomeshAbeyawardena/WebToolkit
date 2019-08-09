@@ -5,6 +5,14 @@ using WebToolkit.Shared.Contracts;
 
 namespace WebToolkit.Common
 {
+    public sealed class IncludeExpression
+    {
+        public static IIncludeExpression<TModel> Create<TModel, TKey>(Expression<Func<TModel, TKey>> value)
+        {
+            return IncludeExpression<TModel, TKey>.Create(value);
+        }
+    }
+
     public class IncludeExpression<TModel, TKey> : IIncludeExpression<TModel>
     {
         private IncludeExpression(Expression<Func<TModel, TKey>> value)
