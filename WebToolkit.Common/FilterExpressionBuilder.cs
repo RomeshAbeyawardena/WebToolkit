@@ -56,6 +56,9 @@ namespace WebToolkit.Common
 
         private static Expression GetBinaryExpressionByComparisonType(ComparisonType comparisonType, Expression leftExpression, Expression rightExpression)
         {
+            if (leftExpression.Type != rightExpression.Type)
+                leftExpression = Expression.Convert(leftExpression, rightExpression.Type);
+
             if (comparisonType.HasFlag(ComparisonType.Equal | ComparisonType.GreaterThan))
                 return Expression.GreaterThanOrEqual(leftExpression, rightExpression);
 

@@ -38,5 +38,33 @@ namespace WebToolkit.Tests
 
             Assert.IsAssignableFrom<Expression<Func<IncludeExpressionTests.TestClass, bool>>>(a);
         }
+
+        [Fact]
+        public void GetFilterExpressionForNullable()
+        {
+            int? value = 4567;
+            var a = FilterExpressionBuilder.CreateBuilder<MyTestClass>(builder =>
+            {
+                builder.Add("a", FilterExpressionParameter.Create(fep =>
+                {
+                    fep.Value = value;
+                    fep.ComparisonType = ComparisonType.Equal;
+                    fep.Operator = Operator.Or;
+                })).Add("b", FilterExpressionParameter.Create(fep =>
+                {
+                    fep.Value = value;
+                    fep.ComparisonType = ComparisonType.Equal;
+                    fep.Operator = Operator.Or;
+                }));
+            }).FilterExpression;
+
+            Assert.IsAssignableFrom<Expression<Func<MyTestClass, bool>>>(a);
+        }
+
+        internal class MyTestClass
+        {
+            public int? A { get; set; }
+            public int? B { get; set; }
+        }
     }
 }
