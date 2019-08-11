@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
+using WebToolkit.Common.Builders;
+using WebToolkit.Contracts.Builders;
 using WebToolkit.Shared;
 
 namespace WebToolkit.Common
@@ -13,6 +13,16 @@ namespace WebToolkit.Common
             IDictionary<string, FilterExpressionParameter> filterDictionary)
         {
             return FilterExpressionBuilder<TModel>.CreateBuilder(filterDictionary);
+        }
+
+        public static FilterExpressionBuilder<TModel> CreateBuilder<TModel>(Action<IDictionaryBuilder<string, FilterExpressionParameter>> filterExpressionDictionary)
+        {
+            var filterExpressionDictionaryInstance =
+                DictionaryBuilder.CreateBuilder<string, FilterExpressionParameter>();
+
+            filterExpressionDictionary(filterExpressionDictionaryInstance);
+
+            return CreateBuilder<TModel>(filterExpressionDictionaryInstance.ToDictionary());
         }
     }
 
@@ -25,13 +35,16 @@ namespace WebToolkit.Common
             _filterDictionary = filterDictionary;
         }
 
-        private static Expression GetUnaryExpressionByOperator(Operator operatorValue, Expression leftExpression, Expression rightExpression)
+        private static Expression GetUnaryExpressionByOperator(Operator operatorValue, Expression leftExpression, Expression rightExpression = null)
         {
             switch (operatorValue)
             {
                 case Operator.And:
                     return Expression.And(leftExpression, rightExpression ?? throw new ArgumentNullException(nameof(rightExpression)));
                 case Operator.Not:
+                    if (rightExpression == null)
+                        return Expression.Not(leftExpression);
+
                     return Expression.And(leftExpression, Expression.Not(rightExpression));
                 case Operator.Or:
                     return Expression.Or(leftExpression, rightExpression  
@@ -43,6 +56,9 @@ namespace WebToolkit.Common
 
         private static Expression GetBinaryExpressionByComparisonType(ComparisonType comparisonType, Expression leftExpression, Expression rightExpression)
         {
+            if (leftExpression.Type != rightExpression.Type)
+                leftExpression = Expression.Convert(leftExpression, rightExpression.Type);
+
             if (comparisonType.HasFlag(ComparisonType.Equal | ComparisonType.GreaterThan))
                 return Expression.GreaterThanOrEqual(leftExpression, rightExpression);
 
@@ -80,7 +96,9 @@ namespace WebToolkit.Common
 
                 if (assignedExpression == null)
                 {
-                    assignedExpression = equalityExpression;
+                    assignedExpression = filterExpressionParameter.Operator == Operator.Not 
+                        ? GetUnaryExpressionByOperator(Operator.Not, equalityExpression)
+                        : equalityExpression;
                     continue;
                 }
 
