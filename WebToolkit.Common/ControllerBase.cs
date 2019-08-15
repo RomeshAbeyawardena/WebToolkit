@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
+using WebToolkit.Common.Extensions;
 using WebToolkit.Contracts.Providers;
 
 namespace WebToolkit.Common
@@ -21,16 +22,8 @@ namespace WebToolkit.Common
 
         protected virtual async Task<T> LoadAsync<T>(CacheType cacheType, string key, Func<Task<T>> loader)
         {
-            var cacheProvider = GetRequiredService<ICacheProvider>();
-            var result = await cacheProvider.Get<T>(cacheType, key);
-
-            if (result != null)
-                return result;
-
-            result = await loader();
-            await cacheProvider.Set(cacheType, key, result);
-
-            return result;
+            var cacheProvider = GetRequiredService<ICacheProvider>()
+                .LoadAsync(cacheType, key, loader);
         }
 
         public TDestination Map<TSource, TDestination>(TSource source) => MapperProvider.Map<TSource, TDestination>(source);
