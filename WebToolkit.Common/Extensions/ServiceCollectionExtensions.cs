@@ -88,6 +88,7 @@ namespace WebToolkit.Common.Extensions
         public static IServiceCollection RegisterProviders(this IServiceCollection service)
         {
             return service
+                .AddSingleton<IPagerFactory, PagerFactory>()
                 .AddSingleton<IFileProvider, FileProvider>()
                 .AddSingleton<IMimeTypeProvider, MimeTypeProvider>()
                 .AddSingleton(Switch<Contracts.Providers.Encoding, Encoding>
