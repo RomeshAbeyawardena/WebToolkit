@@ -22,7 +22,7 @@ namespace WebToolkit.Common
 
         protected virtual async Task<T> LoadAsync<T>(CacheType cacheType, string key, Func<Task<T>> loader)
         {
-            var cacheProvider = GetRequiredService<ICacheProvider>()
+            return await GetRequiredService<ICacheProvider>()
                 .LoadAsync(cacheType, key, loader);
         }
 
