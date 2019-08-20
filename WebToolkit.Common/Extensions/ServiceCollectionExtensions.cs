@@ -85,6 +85,13 @@ namespace WebToolkit.Common.Extensions
             return services;
         }
 
+        public static IServiceCollection RegisterServicesFromAssemblies<TServiceBroker>(this IServiceCollection services)
+            where TServiceBroker : IServiceBroker
+        {
+            return RegisterServicesFromAssemblies<IServiceRegistration, TServiceBroker>(services, serviceProvider =>
+                serviceProvider.GetServiceAssemblies(), (serviceRegistration, s) => serviceRegistration.RegisterServices(s));
+        }
+
         public static IServiceCollection RegisterProviders(this IServiceCollection service)
         {
             return service
