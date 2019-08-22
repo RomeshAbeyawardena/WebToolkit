@@ -4,6 +4,8 @@
     {
         public class MimeType
         {
+            public const string Sass = "text/sass";
+            public const string Scss = "text/x-scss";
             public const string PortableNetworkGraphics = "image/png";
             public const string JointExpertsGroupExtended = "image/jpeg";
             public const string JointExpertsGroup = "image/jpg";
@@ -16,6 +18,8 @@
 
         public class FileType
         {
+            public const string Sass = ".sass";
+            public const string Scss = ".scss";
             public const string PortableNetworkGraphics = ".png";
             public const string JointExpertsGroupExtended = ".jpeg";
             public const string JointExpertsGroup = ".jpg";
