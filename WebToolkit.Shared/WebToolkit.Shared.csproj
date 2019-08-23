@@ -4,6 +4,6 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="AutoMapper" Version="8.1.1"></PackageReference>
+    <PackageReference Include="AutoMapper" Version="9.0.0"></PackageReference>
   </ItemGroup>
 </Project>
