@@ -78,6 +78,45 @@ namespace WebToolkit.Tests
             encodingProviderMock.Verify(a=> a.GetString(It.IsAny<byte[]>(), It.IsAny<Encoding>()), Times.Once);
         }
 
+        [Fact]
+        public void Collection_CreateAdd_includes_existing_entries()
+        {
+            var expectedList = new[]
+            {
+                "Hello",
+                "name",
+                "is",
+                "John", 
+                "Doe"
+            };
+
+            ICollection<string> myStringCollection = new List<string>
+            {
+                "Hello",
+                "name",
+                "is",
+                "John"
+            };
+
+            var newCollection = myStringCollection.CreateAdd("Doe");
+
+            foreach (var expectedValue in expectedList)
+            {
+                Assert.Contains(expectedValue, newCollection);
+            }
+        }
+
+        [Fact]
+        public void NullCollection_CreateAdd_creates_new_collection()
+        {
+            ICollection<string> myCollection = null;
+
+            var newCollection = myCollection.CreateAdd("John");
+            Assert.IsType<List<string>>(newCollection);
+                Assert.Contains("John", newCollection);
+            
+        }
+
         internal class MyTest
         {
             private bool Value { get; set; }

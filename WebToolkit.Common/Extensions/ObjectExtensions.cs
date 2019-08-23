@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
 using WebToolkit.Contracts.Providers;
@@ -32,7 +33,6 @@ namespace WebToolkit.Common.Extensions
             return encodingProvider.GetString(byteValue, encoding);
         }
 
-        
         public static async Task ForEach<T>(this IEnumerable<T> items, Func<T, Task> action)
         {
             foreach (var item in items)
@@ -56,6 +56,19 @@ namespace WebToolkit.Common.Extensions
             return valueType.GetProperties()
                 .Where(a => a.TryGetCustomAttribute<KeyAttribute>(out var attr))
                 .Select(pi => pi.GetValue(value)).ToArray();
+        }
+
+        public static void Apply<T, TKeySelector>(this T target, Action<PropertyInfo, object> applyAction, Expression<Func<T, TKeySelector>> keySelector)
+        {
+            if(!(keySelector.Body is MemberExpression memberExpression))
+                throw new InvalidOperationException("Expression not a member expression");
+
+            typeof(T).Apply(applyAction, target, memberExpression.Member.Name);
+        }
+
+        public static void ApplyAll<T>(this T target, Action<PropertyInfo, object> applyAction)
+        {
+            typeof(T).ApplyAll(target, applyAction);
         }
 
         public static bool IsDefault(this object val)

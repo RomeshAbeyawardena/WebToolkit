@@ -23,7 +23,7 @@ namespace WebToolkit.Common
         {
             foreach (var a in assemblies)
             {
-                foreach (var t in a.GetTypes().Where(type => type.ClassHasInterface<IServiceRegistration>()))
+                foreach (var t in a.GetTypes().Where(type => type.ClassInherits<IServiceRegistration>()))
                 {
                     var serviceRegistration = Activator.CreateInstance(t) as IServiceRegistration;
                     RegisterServices((services) => serviceRegistration?.RegisterServices(services));
