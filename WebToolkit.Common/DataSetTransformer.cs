@@ -1,29 +1,27 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Reflection;
+using WebToolkit.Common.Extensions;
 using WebToolkit.Contracts;
+using WebToolkit.Shared;
 
 namespace WebToolkit.Common
 {
     public class DataSetTransformer : IDataSetTransformer
     {
-        public IEnumerable<TDestination> TransformDataSet<TDestination>(DataSet dataSet, string columnOrder, bool includesHeaders = false)
+        public IEnumerable<TDestination> TransformDataSet<TDestination>(DataSet dataSet, IEnumerable<OrderedColumnInfo> columnOrder, bool includesHeaders = false)
         {
             var table0 = dataSet.Tables[0];
             var placeHolderList = new List<TDestination>();
 
             var placeHolderType = typeof(TDestination);
 
-            var columns = columnOrder.Split(new [] {"|"}, StringSplitOptions.RemoveEmptyEntries);
-
             var columnDictionary = new Dictionary<int, PropertyInfo>();
-            for (var i=0; i< columns.Length; i++)
-            {
-                var column = columns[i];
-                columnDictionary.Add(i, placeHolderType.GetProperty(column));
-            }
-            
+
+            columnOrder.ForEach(c => columnDictionary.Add(c.Index, placeHolderType.GetProperty(c.Name)));
+
             for (var i=0;i < table0.Rows.Count; i++)
             {
                 var placeHolder = Activator.CreateInstance<TDestination>();
