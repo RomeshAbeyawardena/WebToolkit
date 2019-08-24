@@ -1,5 +1,4 @@
-﻿using System.Data;
-using WebToolkit.Contracts;
+﻿using WebToolkit.Contracts;
 using WebToolkit.Shared;
 
 namespace WebToolkit.Common

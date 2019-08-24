@@ -69,11 +69,9 @@ namespace WebToolkit.Common
         {
             if (_options.SingulariseTableNames)
                 foreach (var mutableEntityType in modelBuilder.Model.GetEntityTypes())
-                {
                     mutableEntityType.Relational().TableName = mutableEntityType.Relational()
                         .TableName.Singularize();
-                }
-
+            
             base.OnModelCreating(modelBuilder);
         }
     }

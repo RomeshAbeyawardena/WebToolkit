@@ -4,7 +4,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <Description>A web toolkit consisting of Helpers, Extensions, Builders and Containers to aid Server-side Web Development.</Description>
+    <Description>A web toolkit consisting of helpers, extensions, builders and containers to aid server-side Web Development.</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
