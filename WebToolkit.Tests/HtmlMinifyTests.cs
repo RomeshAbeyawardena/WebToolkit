@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using WebToolkit.Common;
+﻿using WebToolkit.Common;
 using Xunit;
 
 namespace WebToolkit.Tests
