@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Reflection;
 using WebToolkit.Common.Extensions;
 using WebToolkit.Contracts;
@@ -11,21 +10,21 @@ namespace WebToolkit.Common
 {
     public class DataSetTransformer : IDataSetTransformer
     {
-        public IEnumerable<TDestination> TransformDataSet<TDestination>(DataSet dataSet, IEnumerable<OrderedColumnInfo> columnOrder, bool includesHeaders = false)
+        public IEnumerable<TDestination> TransformDataSet<TDestination>(DataTable dataTable, 
+            IEnumerable<OrderedColumnInfo> columnOrder, bool includesHeaders = false)
         {
-            var table0 = dataSet.Tables[0];
-            var placeHolderList = new List<TDestination>();
+            var destinationList = new List<TDestination>();
 
-            var placeHolderType = typeof(TDestination);
+            var destinationType = typeof(TDestination);
 
             var columnDictionary = new Dictionary<int, PropertyInfo>();
 
-            columnOrder.ForEach(c => columnDictionary.Add(c.Index, placeHolderType.GetProperty(c.Name)));
+            columnOrder.ForEach(c => columnDictionary.Add(c.Index, destinationType.GetProperty(c.Name)));
 
-            for (var i=0;i < table0.Rows.Count; i++)
+            for (var i=0;i < dataTable.Rows.Count; i++)
             {
-                var placeHolder = Activator.CreateInstance<TDestination>();
-                var row = table0.Rows[i];
+                var converted = Activator.CreateInstance<TDestination>();
+                var row = dataTable.Rows[i];
 
                 if (includesHeaders && i == 0)
                     continue;
@@ -40,13 +39,13 @@ namespace WebToolkit.Common
                     if (data.GetType() != column.Value.PropertyType)
                         data = Convert.ChangeType(data, column.Value.PropertyType);
 
-                    column.Value.SetValue(placeHolder, data);
+                    column.Value.SetValue(converted, data);
                 }
 
-                placeHolderList.Add(placeHolder);
+                destinationList.Add(converted);
             }
 
-            return placeHolderList.ToArray();
+            return destinationList.ToArray();
         }
     }
 }

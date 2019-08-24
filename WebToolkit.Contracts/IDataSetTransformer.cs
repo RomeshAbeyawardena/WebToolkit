@@ -6,6 +6,6 @@ namespace WebToolkit.Contracts
 {
     public interface IDataSetTransformer
     {
-        IEnumerable<TDestination> TransformDataSet<TDestination>(DataSet dataSet, IEnumerable<OrderedColumnInfo> columnOrder, bool includesHeaders = false);
+        IEnumerable<TDestination> TransformDataSet<TDestination>(DataTable dataTable, IEnumerable<OrderedColumnInfo> columnOrder, bool includesHeaders = false);
     }
 }
