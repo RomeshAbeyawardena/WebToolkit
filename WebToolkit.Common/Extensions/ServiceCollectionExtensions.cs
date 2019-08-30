@@ -115,7 +115,11 @@ namespace WebToolkit.Common.Extensions
                 .AddSingleton<IMapperProvider, MapperProvider>()
                 .AddSingleton<ICryptographyProvider, CryptographyProvider>()
                 .AddSingleton<ICacheProvider, CacheProvider>()
-                .AddSingleton<IAsyncLockDictionary, DefaultAsyncLockDictionary>();
+                .AddSingleton<IAsyncLockDictionary, DefaultAsyncLockDictionary>()
+                .AddSingleton<IConnectionStringBuilder, ConnectionStringBuilder>()
+                .AddSingleton<IArgumentParser, ArgumentParser>()
+                .AddSingleton<IExcelDocumentParser, ExcelDocumentParser>()
+                .AddSingleton<IDataSetTransformer, DataSetTransformer>();
         }
 
         public static IServiceCollection AddDefaultValueProvider<TModel>(this IServiceCollection services, Action<TModel> defaults)
