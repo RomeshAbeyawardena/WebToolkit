@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading.Tasks;
 using WebToolkit.Shared;
 
 namespace WebToolkit.Contracts

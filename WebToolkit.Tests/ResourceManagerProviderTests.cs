@@ -1,5 +1,4 @@
-﻿using System.Resources;
-using WebToolkit.Common;
+﻿using WebToolkit.Common;
 using WebToolkit.Common.Builders;
 using Xunit;
 

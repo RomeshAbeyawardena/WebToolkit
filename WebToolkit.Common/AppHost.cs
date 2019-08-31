@@ -2,20 +2,24 @@
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using WebToolkit.Common.Extensions;
 using WebToolkit.Contracts;
 
 namespace WebToolkit.Common
 {
+    /// <summary>
+    /// Represents a simple AppHost to host console applications with dependency injection support
+    /// </summary>
     public class AppHost : IAppHost
     {
-        private readonly IServiceCollection _serviceCollection;
+        protected readonly IServiceCollection ServiceCollection;
 
-        public IServiceProvider ServiceProvider => _serviceCollection.BuildServiceProvider();
+        public IServiceProvider ServiceProvider => ServiceCollection.BuildServiceProvider();
         public ServiceProviderOptions ServiceProviderOptions { get; }
         public Type StartupType { get; }
         public IAppHost RegisterServices(Action<IServiceCollection> services)
         {
-            services(_serviceCollection);
+            services(ServiceCollection);
             return this;
         }
 
@@ -39,8 +43,8 @@ namespace WebToolkit.Common
             StartupType = startupType;
             ServiceProviderOptions = new ServiceProviderOptions();
              serviceProviderOptions(ServiceProviderOptions);
-            _serviceCollection = new ServiceCollection();
-            _serviceCollection
+            ServiceCollection = new ServiceCollection();
+            ServiceCollection
                 .AddSingleton<IConfiguration>(new ConfigurationBuilder()
                     .AddJsonFile(appSettingFile)
                     .Build())
@@ -55,28 +59,47 @@ namespace WebToolkit.Common
         {
 
         }
-
+        
+        /// <summary>
+        /// Creates an App Host
+        /// </summary>
+        /// <param name="serviceProviderOptions"></param>
+        /// <returns></returns>
         public static IAppHost<TStartup> CreateAppHost(Action<ServiceProviderOptions> serviceProviderOptions = null)
         {
             return new AppHost<TStartup>(serviceProviderOptions);
         }
 
+        //Invokes an async Task implemented within TStartup that represents a start of the application
         public async Task<IAppHost<TStartup>> StartAsync(string[] args, Func<TStartup, string[], Task> startupAction)
         {
             await startupAction((TStartup) GetStartupService(), args);
             return this;
         }
-
+        
+        //Registers services within this instance containers
         public new IAppHost<TStartup> RegisterServices(Action<IServiceCollection> services)
         {
             base.RegisterServices(services);
             return this;
         }
-
-        public IAppHost<TStartup> Start(string[] args, Action<TStartup, string[]> startupAction)
+        
+        //Invokes a method implemented within TStartup that represents service registration
+        public IAppHost<TStartup> RegisterServices(Func<TStartup, IServiceCollection> services)
         {
-            startupAction((TStartup)GetStartupService(), args);
+            services(StartupService)
+                .ForEach(s => ServiceCollection.Add(s));
+
             return this;
         }
+
+        //Invokes a method implemented within TStartup that represents a start of the application
+        public IAppHost<TStartup> Start(string[] args, Action<TStartup, string[]> startupAction)
+        {
+            startupAction(StartupService, args);
+            return this;
+        }
+
+        private TStartup StartupService => (TStartup) GetStartupService();
     }
 }
