@@ -4,7 +4,7 @@
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
-    <Description>A web toolkit consisting of Helpers, Extensions, Builders and Containers to aid Server-side Web Development.</Description>
+    <Description>A web toolkit consisting of helpers, extensions, builders and containers to aid server-side Web Development.</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="9.0.0" />
@@ -14,8 +14,8 @@
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.2.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6"></PackageReference>
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6"></PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.2.6" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.2.6" />
     <PackageReference Include="Humanizer" Version="2.6.2" />
     <PackageReference Include="HtmlAgilityPack.NetCore" Version="1.5.0.1" />
   </ItemGroup>
