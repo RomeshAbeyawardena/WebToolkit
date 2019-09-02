@@ -24,6 +24,8 @@ namespace WebToolkit.Common
             {
                 connectionString += $"{keyValuePair.Key}={keyValuePair.Value};";
             }
+
+            return connectionString;
         }
     }
 }
