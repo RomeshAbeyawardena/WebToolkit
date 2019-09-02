@@ -15,13 +15,15 @@ namespace WebToolkit.Common
                 connectionString += $"Trusted_Connection={trustedConnection};";
 
             if (multipleActiveResultSets.HasValue)
-                connectionString = $"MultipleActiveResultSets={multipleActiveResultSets};";
+                connectionString += $"MultipleActiveResultSets={multipleActiveResultSets};";
 
             if (additionalKeyValues == null) 
                 return connectionString;
 
-            return additionalKeyValues.Aggregate(connectionString, (current, keyValuePair) 
-                => current + $"{keyValuePair.Key}={keyValuePair.Value};");
+            foreach (var keyValuePair in additionalKeyValues)
+            {
+                connectionString += $"{keyValuePair.Key}={keyValuePair.Value};";
+            }
         }
     }
 }
